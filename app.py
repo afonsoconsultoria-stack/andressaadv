@@ -272,10 +272,11 @@ elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
     resposta_usuario = st.radio("Marque sua resposta:", opcoes_radio, key=f"radio_{q_atual['id']}")
     
     col_btn1, col_btn2 = st.columns(2)
+        col_btn1, col_btn2 = st.columns(2)
     with col_btn1:
-alidar = st.button("✅ Confirmar Resposta", key=f"btn_{q_atual['id']}")
-with col_btn2:
-marcar_dificuldade = st.button("🚩 Registrar Dificuldade neste Tema", key=f"dif_{q_atual['id']}")
+        validar = st.button("✅ Confirmar Resposta", key=f"btn_{q_atual['id']}")
+    with col_btn2:
+        marcar_dificuldade = st.button("🚩 Registrar Dificuldade neste Tema", key=f"dif_{q_atual['id']}")
 if marcar_dificuldade:
 if q_atual["tema"] not in st.session_state.temas_dificuldade:
 st.session_state.temas_dificuldade.append(q_atual["tema"])
