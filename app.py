@@ -2,7 +2,6 @@ import streamlit as st
 import streamlit.components.v1 as components
 import json
 import pandas as pd
-
 st.set_page_config(page_title="LexAI OAB - Direito Administrativo", layout="wide", initial_sidebar_state="expanded")
 
 # 🌌 FUNDO INTERATIVO ESCURO COM PARTÍCULAS VERDE CLARO E VERMELHAS (ATRÁS DE TUDO)
@@ -49,7 +48,6 @@ for (let i = 0; i < 65; i++) {
         isGreen: i % 2 === 0
     });
 }
-
 function animate() {
     ctx.clearRect(0, 0, width, height);
     for (let i = 0; i < particles.length; i++) {
