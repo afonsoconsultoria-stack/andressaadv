@@ -2,9 +2,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 import json
 import pandas as pd
+
 st.set_page_config(page_title="LexAI OAB - Direito Administrativo", layout="wide", initial_sidebar_state="expanded")
 
-# 🌌 FUNDO INTERATIVO ESCURO COM PARTÍCULAS VERDE CLARO E VERMELHAS (ATRÁS DE TUDO)
+# FUNDO INTERATIVO ESCURO COM PARTICULAS VERDE CLARO E VERMELHAS
 fundo_interativo = """
 <script>
 const parentDoc = window.parent.document;
@@ -48,6 +49,7 @@ for (let i = 0; i < 65; i++) {
         isGreen: i % 2 === 0
     });
 }
+
 function animate() {
     ctx.clearRect(0, 0, width, height);
     for (let i = 0; i < particles.length; i++) {
@@ -97,7 +99,7 @@ animate();
 """
 components.html(fundo_interativo, height=0, width=0)
 
-# 🎨 ESTILO VISUAL ESCURO COM TEXTOS EM VERDE CLARO E VERMELHO (SEM QUEBRAR LAYOUT)
+# ESTILO VISUAL ESCURO COM TEXTOS EM VERDE CLARO E VERMELHO
 st.markdown("""
     <style>
     .stApp {
@@ -117,23 +119,18 @@ st.markdown("""
         border-right: 1px solid rgba(74, 222, 128, 0.35) !important;
         z-index: 3 !important;
     }
-    /* Títulos Principais em Verde Claro */
     h1, h2 {
         color: #4ade80 !important;
     }
-    /* Subtítulos em Vermelho Claro */
     h3, h4, h5, h6 {
         color: #f87171 !important;
     }
-    /* Todos os textos, parágrafos, opções de rádio, checkboxes e tabelas em Verde Claro */
     p, span, label, li, td, th, code, pre, .stMarkdown, [data-testid="stRadio"] label p, [data-testid="stCheckbox"] label p {
         color: #86efac !important;
     }
-    /* Destaques em negrito e legendas em Vermelho Claro */
     strong, b, .stCaption, [data-testid="stCaptionContainer"] p {
         color: #f87171 !important;
     }
-    /* Quadros e Contêineres Nativos (st.container com border=True) */
     [data-testid="stVerticalBlockBorderWrapper"] {
         background-color: rgba(13, 21, 38, 0.88) !important;
         border: 1px solid rgba(74, 222, 128, 0.4) !important;
@@ -141,7 +138,6 @@ st.markdown("""
         padding: 15px !important;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
     }
-    /* Tabelas */
     table, thead, tbody, tr, th, td {
         background-color: rgba(13, 21, 38, 0.95) !important;
         border-color: rgba(74, 222, 128, 0.35) !important;
@@ -149,7 +145,6 @@ st.markdown("""
     th {
         color: #f87171 !important;
     }
-    /* Abas (Tabs) */
     button[data-baseweb="tab"] p {
         color: #86efac !important;
     }
@@ -157,7 +152,6 @@ st.markdown("""
         color: #f87171 !important;
         font-weight: bold !important;
     }
-    /* Cards de Métricas */
     .stMetric {
         background-color: rgba(15, 23, 42, 0.9) !important;
         padding: 18px !important;
@@ -171,7 +165,6 @@ st.markdown("""
     [data-testid="stMetricDelta"] div {
         color: #f87171 !important;
     }
-    /* Botões */
     div.stButton > button:first-child {
         background-color: #14532d !important;
         color: #86efac !important;
@@ -186,7 +179,6 @@ st.markdown("""
         color: #fca5a5 !important;
         border: 1px solid #f87171 !important;
     }
-    /* Caixa de Gabarito */
     .gabarito-box {
         background-color: rgba(15, 23, 42, 0.95);
         padding: 18px;
@@ -195,7 +187,6 @@ st.markdown("""
         border-top: 1px solid rgba(74, 222, 128, 0.3);
         margin-top: 15px;
     }
-    /* Caixas de Texto e Seletores */
     textarea, input, div[data-baseweb="select"] > div {
         background-color: #0f172a !important;
         color: #86efac !important;
@@ -205,7 +196,6 @@ st.markdown("""
         background-color: #0f172a !important;
         color: #86efac !important;
     }
-    /* Alertas */
     [data-testid="stAlert"] {
         background-color: rgba(15, 23, 42, 0.95) !important;
         border: 1px solid #f87171 !important;
@@ -252,20 +242,15 @@ if st.sidebar.button("🔄 Zerar Progresso"):
     st.session_state.temas_dificuldade = []
     st.rerun()
 
-# ==========================================
-# MÓDULO 1: PAINEL ESTATÍSTICO INTERATIVO
-# ==========================================
+# MODULO 1: PAINEL ESTATISTICO INTERATIVO
 if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
     st.title("📊 Análise Estatística OAB (2022–2026)")
     st.markdown("### Mapeamento Metodológico de Direito Administrativo")
     
     col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric(label="Tema Líder (1ª Fase) 🔝", value="Agentes & Improbidade", delta="25,0% de incidência")
-    with col2:
-        st.metric(label="Destaque Legislativo", value="Lei 14.133/21", delta="Tendência de Alta")
-    with col3:
-        st.metric(label="Peça Campeã (2ª Fase)", value="Mandado de Segurança", delta="5 cobranças no período")
+    col1.metric(label="Tema Líder (1ª Fase) 🔝", value="Agentes & Improbidade", delta="25,0% de incidência")
+    col2.metric(label="Destaque Legislativo", value="Lei 14.133/21", delta="Tendência de Alta")
+    col3.metric(label="Peça Campeã (2ª Fase)", value="Mandado de Segurança", delta="5 cobranças no período")
 
     st.markdown("---")
     
@@ -274,16 +259,31 @@ if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
     
     with tab1:
         col_g1, col_g2 = st.columns(2)
-        with col_g1:
-            with st.container(border=True):
-                st.subheader("Quantidade de Questões por Tema")
-                st.bar_chart(df_1fase.set_index("tema")["questoes"], color="#4ade80")
-                st.caption("Número absoluto de questões auditadas (2022–2026).")
-        with col_g2:
-            with st.container(border=True):
-                st.subheader("Percentual de Incidência (%)")
-                st.bar_chart(df_1fase.set_index("tema")["porcentagem"], color="#f87171")
-                st.caption("Peso proporcional de cada tema na prova objetiva.")
+        col_g1.subheader("Quantidade de Questões por Tema")
+        col_g1.bar_chart(df_1fase.set_index("tema")["questoes"], color="#4ade80")
+        col_g1.caption("Número absoluto de questões auditadas (2022–2026).")
+        
+        col_g2.subheader("Percentual de Incidência (%)")
+        col_g2.bar_chart(df_1fase.set_index("tema")["porcentagem"], color="#f87171")
+        col_g2.caption("Peso proporcional de cada tema na prova objetiva.")
         
     with tab2:
-        with st.container(border=True):
+        st.subheader("Dados Auditados da Prova Objetiva")
+        filtro_tendencia = st.multiselect("Filtrar por tendência de cobrança:", options=["Alta", "Estável", "Queda"], default=["Alta", "Estável", "Queda"])
+        df_filtrado = df_1fase[df_1fase["tendencia"].isin(filtro_tendencia)]
+        st.table(df_filtrado)
+        
+    with tab3:
+        st.subheader("Mapeamento de Peças Prático-Profissionais")
+        df_2fase = pd.DataFrame(db["pecas_recorrentes_2a_fase"])
+        st.table(df_2fase)
+
+# MODULOS 2 e 3: SIMULADOR INTERATIVO
+elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
+    st.title("📝 Banco Inteligente de Questões (1ª Fase)")
+    
+    questoes = db["questoes_simulado"]
+    total_q = len(questoes)
+    
+    progresso = len(st.session_state.respondidas) / total_q
+    st.progress(progresso)
