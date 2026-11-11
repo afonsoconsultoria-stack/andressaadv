@@ -3,8 +3,10 @@ import streamlit.components.v1 as components
 import json
 import pandas as pd
 
+# 🎨 CONFIGURAÇÃO VISUAL DA PÁGINA
 st.set_page_config(page_title="LexAI OAB - Direito Administrativo", layout="wide", initial_sidebar_state="expanded")
 
+# 🌌 FUNDO INTERATIVO ANIMADO (PARTÍCULAS DE REDE NEURAL / DIREITO DIGITAL)
 fundo_interativo = """
 <script>
 const parentDoc = window.parent.document;
@@ -92,6 +94,7 @@ if (!parentDoc.getElementById('bg-canvas-oab')) {
 """
 components.html(fundo_interativo, height=0, width=0)
 
+# 🎨 ESTILO VISUAL EM VIDRO (GLASSMORPHISM) PARA DESTACAR O FUNDO INTERATIVO
 st.markdown("""
     <style>
     .stApp {
@@ -146,6 +149,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Inicialização da Memória Interativa
 if "acertos" not in st.session_state:
     st.session_state.acertos = 0
 if "erros" not in st.session_state:
@@ -155,6 +159,7 @@ if "respondidas" not in st.session_state:
 if "temas_dificuldade" not in st.session_state:
     st.session_state.temas_dificuldade = []
 
+# Carregamento da Base de Dados
 try:
     with open('dados_oab.json', 'r', encoding='utf-8') as f:
         db = json.load(f)
@@ -162,6 +167,7 @@ except FileNotFoundError:
     st.error("Erro: Arquivo 'dados_oab.json' não encontrado no repositório.")
     st.stop()
 
+# 📌 MENU LATERAL INTERATIVO
 st.sidebar.title("⚖️ LexAI OAB")
 st.sidebar.caption("Direito Administrativo | UNAMA")
 st.sidebar.markdown("---")
@@ -185,6 +191,9 @@ if st.sidebar.button("🔄 Zerar Progresso"):
     st.session_state.temas_dificuldade = []
     st.rerun()
 
+# ==========================================
+# MÓDULO 1: PAINEL ESTATÍSTICO INTERATIVO
+# ==========================================
 if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
     st.title("📊 Análise Estatística OAB (2022–2026)")
     st.markdown("### Mapeamento Metodológico de Direito Administrativo")
@@ -224,6 +233,9 @@ if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
         st.table(df_2fase)
         st.markdown('</div>', unsafe_allow_html=True)
 
+# ==========================================
+# MÓDULOS 2 e 3: SIMULADOR INTERATIVO
+# ==========================================
 elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
     st.title("📝 Banco Inteligente de Questões (1ª Fase)")
     
@@ -261,15 +273,3 @@ elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
     
     col_btn1, col_btn2 = st.columns(2)
     with col_btn1:
-        validar = st.button("✅ Confirmar Resposta", key=f"btn_{q_atual['id']}")
-    with col_btn2:
-        marcar_dificuldade = st.button("🚩 Registrar Dificuldade neste Tema", key=f"dif_{q_atual['id']}")
-        
-    if marcar_dificuldade:
-        if q_atual["tema"] not in st.session_state.temas_dificuldade:
-            st.session_state.temas_dificuldade.append(q_atual["tema"])
-        st.warning(f"Tema **{q_atual['tema']}** adicionado ao seu Plano de Revisão (Módulo 5)!")
-
-    if validar:
-        letra_marcada = resposta_usuario[0]
-        
