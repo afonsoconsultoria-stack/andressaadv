@@ -279,5 +279,4 @@ elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
     col_btn1, col_btn2 = st.columns(2)
     validar = col_btn1.button("✅ Confirmar Resposta", key=f"btn_{q_atual['id']}")
     marcar_dificuldade = col_btn2.button("🚩 Registrar Dificuldade neste Tema", key=f"dif_{q_atual['id']}")
-        
     if marcar_dificuldade:
