@@ -5,6 +5,7 @@ import pandas as pd
 
 st.set_page_config(page_title="LexAI OAB - Direito Administrativo", layout="wide", initial_sidebar_state="expanded")
 
+# 🌌 FUNDO INTERATIVO ESCURO COM PARTÍCULAS VERDE CLARO E VERMELHAS (ATRÁS DE TUDO)
 fundo_interativo = """
 <script>
 const parentDoc = window.parent.document;
@@ -38,12 +39,12 @@ window.parent.addEventListener('mousemove', (e) => {
 });
 
 const particles = [];
-for (let i = 0; i < 70; i++) {
+for (let i = 0; i < 65; i++) {
     particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.9,
-        vy: (Math.random() - 0.5) * 0.9,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: (Math.random() - 0.5) * 0.8,
         radius: Math.random() * 2.5 + 1.2,
         isGreen: i % 2 === 0
     });
@@ -61,32 +62,32 @@ function animate() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.isGreen ? 'rgba(74, 222, 128, 0.65)' : 'rgba(248, 113, 113, 0.65)';
+        ctx.fillStyle = p.isGreen ? 'rgba(74, 222, 128, 0.55)' : 'rgba(248, 113, 113, 0.55)';
         ctx.fill();
 
         for (let j = i + 1; j < particles.length; j++) {
             let p2 = particles[j];
             let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-            if (dist < 135) {
+            if (dist < 130) {
                 ctx.beginPath();
                 ctx.moveTo(p.x, p.y);
                 ctx.lineTo(p2.x, p2.y);
                 ctx.strokeStyle = p.isGreen 
-                    ? `rgba(74, 222, 128, ${0.25 - dist/550})` 
-                    : `rgba(248, 113, 113, ${0.25 - dist/550})`;
+                    ? `rgba(74, 222, 128, ${0.22 - dist/600})` 
+                    : `rgba(248, 113, 113, ${0.22 - dist/600})`;
                 ctx.stroke();
             }
         }
 
         if (mouse.x && mouse.y) {
             let distMouse = Math.hypot(p.x - mouse.x, p.y - mouse.y);
-            if (distMouse < 170) {
+            if (distMouse < 160) {
                 ctx.beginPath();
                 ctx.moveTo(p.x, p.y);
                 ctx.lineTo(mouse.x, mouse.y);
                 ctx.strokeStyle = p.isGreen 
-                    ? `rgba(74, 222, 128, ${0.55 - distMouse/320})` 
-                    : `rgba(248, 113, 113, ${0.55 - distMouse/320})`;
+                    ? `rgba(74, 222, 128, ${0.5 - distMouse/350})` 
+                    : `rgba(248, 113, 113, ${0.5 - distMouse/350})`;
                 ctx.stroke();
             }
         }
@@ -98,45 +99,59 @@ animate();
 """
 components.html(fundo_interativo, height=0, width=0)
 
+# 🎨 ESTILO VISUAL ESCURO COM TEXTOS EM VERDE CLARO E VERMELHO (SEM QUEBRAR LAYOUT)
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(135deg, #05080f 0%, #0b1324 100%);
+        background-color: #060a12 !important;
     }
-    [data-testid="stAppViewContainer"] > .main {
+    [data-testid="stAppViewContainer"] {
+        background: transparent !important;
         position: relative;
-        z-index: 1;
+        z-index: 2 !important;
     }
     [data-testid="stHeader"] {
-        background-color: rgba(5, 8, 15, 0.6);
+        background-color: rgba(6, 10, 18, 0.7) !important;
+        z-index: 3 !important;
     }
     [data-testid="stSidebar"] {
-        background-color: rgba(10, 15, 28, 0.92);
-        backdrop-filter: blur(12px);
-        border-right: 1px solid rgba(74, 222, 128, 0.3);
-        z-index: 2;
+        background-color: rgba(10, 16, 30, 0.94) !important;
+        border-right: 1px solid rgba(74, 222, 128, 0.35) !important;
+        z-index: 3 !important;
     }
+    /* Títulos Principais em Verde Claro */
     h1, h2 {
         color: #4ade80 !important;
-        text-shadow: 0 0 12px rgba(74, 222, 128, 0.25);
     }
+    /* Subtítulos em Vermelho Claro */
     h3, h4, h5, h6 {
         color: #f87171 !important;
     }
-    p, span, label, li, div, td, th, code, pre, .stMarkdown, [data-testid="stRadio"] label, [data-testid="stCheckbox"] label {
+    /* Todos os textos, parágrafos, opções de rádio, checkboxes e tabelas em Verde Claro */
+    p, span, label, li, td, th, code, pre, .stMarkdown, [data-testid="stRadio"] label p, [data-testid="stCheckbox"] label p {
         color: #86efac !important;
     }
+    /* Destaques em negrito e legendas em Vermelho Claro */
     strong, b, .stCaption, [data-testid="stCaptionContainer"] p {
         color: #f87171 !important;
     }
+    /* Quadros e Contêineres Nativos (st.container com border=True) */
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: rgba(13, 21, 38, 0.88) !important;
+        border: 1px solid rgba(74, 222, 128, 0.4) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
+    }
+    /* Tabelas */
     table, thead, tbody, tr, th, td {
-        background-color: rgba(13, 20, 36, 0.92) !important;
-        border-color: rgba(74, 222, 128, 0.3) !important;
+        background-color: rgba(13, 21, 38, 0.95) !important;
+        border-color: rgba(74, 222, 128, 0.35) !important;
     }
     th {
         color: #f87171 !important;
-        font-weight: bold !important;
     }
+    /* Abas (Tabs) */
     button[data-baseweb="tab"] p {
         color: #86efac !important;
     }
@@ -144,14 +159,13 @@ st.markdown("""
         color: #f87171 !important;
         font-weight: bold !important;
     }
+    /* Cards de Métricas */
     .stMetric {
-        background-color: rgba(15, 23, 42, 0.88);
-        backdrop-filter: blur(8px);
-        padding: 18px;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        border-left: 5px solid #4ade80;
-        border-top: 1px solid rgba(248, 113, 113, 0.25);
+        background-color: rgba(15, 23, 42, 0.9) !important;
+        padding: 18px !important;
+        border-radius: 12px !important;
+        border-left: 5px solid #4ade80 !important;
+        border-top: 1px solid rgba(248, 113, 113, 0.3) !important;
     }
     [data-testid="stMetricValue"] div {
         color: #4ade80 !important;
@@ -159,15 +173,7 @@ st.markdown("""
     [data-testid="stMetricDelta"] div {
         color: #f87171 !important;
     }
-    .card-juridico {
-        background-color: rgba(13, 20, 36, 0.88);
-        backdrop-filter: blur(10px);
-        padding: 22px;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-        border: 1px solid rgba(74, 222, 128, 0.35);
-        margin-bottom: 18px;
-    }
+    /* Botões */
     div.stButton > button:first-child {
         background-color: #14532d !important;
         color: #86efac !important;
@@ -182,6 +188,7 @@ st.markdown("""
         color: #fca5a5 !important;
         border: 1px solid #f87171 !important;
     }
+    /* Caixa de Gabarito */
     .gabarito-box {
         background-color: rgba(15, 23, 42, 0.95);
         padding: 18px;
@@ -190,6 +197,7 @@ st.markdown("""
         border-top: 1px solid rgba(74, 222, 128, 0.3);
         margin-top: 15px;
     }
+    /* Caixas de Texto e Seletores */
     textarea, input, div[data-baseweb="select"] > div {
         background-color: #0f172a !important;
         color: #86efac !important;
@@ -199,8 +207,9 @@ st.markdown("""
         background-color: #0f172a !important;
         color: #86efac !important;
     }
+    /* Alertas */
     [data-testid="stAlert"] {
-        background-color: rgba(15, 23, 42, 0.92) !important;
+        background-color: rgba(15, 23, 42, 0.95) !important;
         border: 1px solid #f87171 !important;
     }
     </style>
@@ -245,6 +254,9 @@ if st.sidebar.button("🔄 Zerar Progresso"):
     st.session_state.temas_dificuldade = []
     st.rerun()
 
+# ==========================================
+# MÓDULO 1: PAINEL ESTATÍSTICO INTERATIVO
+# ==========================================
 if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
     st.title("📊 Análise Estatística OAB (2022–2026)")
     st.markdown("### Mapeamento Metodológico de Direito Administrativo")
@@ -265,26 +277,15 @@ if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
     with tab1:
         col_g1, col_g2 = st.columns(2)
         with col_g1:
-            st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
-            st.subheader("Quantidade de Questões por Tema")
-            st.bar_chart(df_1fase.set_index("tema")["questoes"], color="#4ade80")
-            st.caption("Número absoluto de questões auditadas (2022–2026).")
-            st.markdown('</div>', unsafe_allow_html=True)
+            with st.container(border=True):
+                st.subheader("Quantidade de Questões por Tema")
+                st.bar_chart(df_1fase.set_index("tema")["questoes"], color="#4ade80")
+                st.caption("Número absoluto de questões auditadas (2022–2026).")
         with col_g2:
-            st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
-            st.subheader("Percentual de Incidência (%)")
-            st.bar_chart(df_1fase.set_index("tema")["porcentagem"], color="#f87171")
-            st.caption("Peso proporcional de cada tema na prova objetiva.")
-            st.markdown('</div>', unsafe_allow_html=True)
+            with st.container(border=True):
+                st.subheader("Percentual de Incidência (%)")
+                st.bar_chart(df_1fase.set_index("tema")["porcentagem"], color="#f87171")
+                st.caption("Peso proporcional de cada tema na prova objetiva.")
         
     with tab2:
-        st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
-        st.subheader("Dados Auditados da Prova Objetiva")
-        filtro_tendencia = st.multiselect("Filtrar por tendência de cobrança:", options=["Alta", "Estável", "Queda"], default=["Alta", "Estável", "Queda"])
-        df_filtrado = df_1fase[df_1fase["tendencia"].isin(filtro_tendencia)]
-        st.table(df_filtrado)
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-    with tab3:
-        st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
-        st.subheader("Mapeamento de Peças Prático-Profissionais")
+        with st.container(border=True):
