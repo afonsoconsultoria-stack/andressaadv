@@ -99,11 +99,12 @@ animate();
 """
 components.html(fundo_interativo, height=0, width=0)
 
-# 🎨 TEMA ESCURO COM 100% DOS TEXTOS EM VERDE CLARO E VERMELHO
+# 🎨 TEMA ESCURO COM LETRAS VERDE CLARAS E VERMELHAS
 st.markdown("""
     <style>
     .stApp {
         background: linear-gradient(135deg, #05080f 0%, #0b1324 100%);
+        color: #86efac;
     }
     [data-testid="stAppViewContainer"] > .main {
         position: relative;
@@ -113,47 +114,26 @@ st.markdown("""
         background-color: rgba(5, 8, 15, 0.6);
     }
     [data-testid="stSidebar"] {
-        background-color: rgba(10, 15, 28, 0.92);
+        background-color: rgba(10, 15, 28, 0.90);
         backdrop-filter: blur(12px);
-        border-right: 1px solid rgba(74, 222, 128, 0.3);
+        border-right: 1px solid rgba(74, 222, 128, 0.25);
         z-index: 2;
     }
-    /* Títulos em Verde Claro e Subtítulos em Vermelho Claro */
     h1, h2 {
         color: #4ade80 !important;
         text-shadow: 0 0 12px rgba(74, 222, 128, 0.25);
     }
-    h3, h4, h5, h6 {
+    h3, h4, h5 {
         color: #f87171 !important;
     }
-    /* Todos os demais textos, listas, opções e células de tabela em Verde Claro */
-    p, span, label, li, div, td, th, code, pre, .stMarkdown, [data-testid="stRadio"] label, [data-testid="stCheckbox"] label {
+    p, label, span, li, .stMarkdown {
         color: #86efac !important;
     }
-    /* Destaques em negrito e legendas em Vermelho Claro para contraste */
-    strong, b, .stCaption, [data-testid="stCaptionContainer"] p {
-        color: #f87171 !important;
+    .stCaption {
+        color: #fca5a5 !important;
     }
-    /* Tabelas escuras */
-    table, thead, tbody, tr, th, td {
-        background-color: rgba(13, 20, 36, 0.92) !important;
-        border-color: rgba(74, 222, 128, 0.3) !important;
-    }
-    th {
-        color: #f87171 !important;
-        font-weight: bold !important;
-    }
-    /* Abas (Tabs) */
-    button[data-baseweb="tab"] p {
-        color: #86efac !important;
-    }
-    button[data-baseweb="tab"][aria-selected="true"] p {
-        color: #f87171 !important;
-        font-weight: bold !important;
-    }
-    /* Métricas */
     .stMetric {
-        background-color: rgba(15, 23, 42, 0.88);
+        background-color: rgba(15, 23, 42, 0.85);
         backdrop-filter: blur(8px);
         padding: 18px;
         border-radius: 12px;
@@ -161,38 +141,35 @@ st.markdown("""
         border-left: 5px solid #4ade80;
         border-top: 1px solid rgba(248, 113, 113, 0.25);
     }
-    [data-testid="stMetricValue"] div {
+    [data-testid="stMetricValue"] {
         color: #4ade80 !important;
     }
-    [data-testid="stMetricDelta"] div {
+    [data-testid="stMetricDelta"] {
         color: #f87171 !important;
     }
-    /* Cartões translúcidos */
     .card-juridico {
         background-color: rgba(13, 20, 36, 0.88);
         backdrop-filter: blur(10px);
         padding: 22px;
         border-radius: 12px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-        border: 1px solid rgba(74, 222, 128, 0.35);
+        border: 1px solid rgba(74, 222, 128, 0.3);
         margin-bottom: 18px;
     }
-    /* Botões */
     div.stButton > button:first-child {
-        background-color: #14532d !important;
+        background-color: #14532d;
         color: #86efac !important;
         width: 100%;
         border-radius: 8px;
         font-weight: bold;
         padding: 10px;
-        border: 1px solid #4ade80 !important;
+        border: 1px solid #4ade80;
     }
     div.stButton > button:first-child:hover {
-        background-color: #7f1d1d !important;
+        background-color: #7f1d1d;
         color: #fca5a5 !important;
-        border: 1px solid #f87171 !important;
+        border: 1px solid #f87171;
     }
-    /* Caixa de Gabarito */
     .gabarito-box {
         background-color: rgba(15, 23, 42, 0.95);
         padding: 18px;
@@ -201,20 +178,10 @@ st.markdown("""
         border-top: 1px solid rgba(74, 222, 128, 0.3);
         margin-top: 15px;
     }
-    /* Inputs e Selectboxes */
-    textarea, input, div[data-baseweb="select"] > div {
+    textarea, input, select {
         background-color: #0f172a !important;
         color: #86efac !important;
         border: 1px solid #4ade80 !important;
-    }
-    ul[role="listbox"] li {
-        background-color: #0f172a !important;
-        color: #86efac !important;
-    }
-    /* Alertas (st.info, st.warning, st.success, st.error) */
-    [data-testid="stAlert"] {
-        background-color: rgba(15, 23, 42, 0.92) !important;
-        border: 1px solid #f87171 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -272,22 +239,49 @@ if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
 
     st.markdown("---")
     
-    tab1, tab2, tab3 = st.tabs(["📈 Gráficos Interativos (1ª Fase)", "📋 Tabela Detalhada (1ª Fase)", "🏛️ Peças Processuais (2ª Fase)"])
+    tab1, tab2, tab3 = st.tabs(["📈 Gráfico Interativo (1ª Fase)", "📋 Tabela Detalhada (1ª Fase)", "🏛️ Peças Processuais (2ª Fase)"])
     df_1fase = pd.DataFrame(db["estatisticas_1a_fase"])
     
     with tab1:
-        col_g1, col_g2 = st.columns(2)
-        with col_g1:
-            st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
-            st.subheader("Quantidade de Questões por Tema")
-            st.bar_chart(df_1fase.set_index("tema")["questoes"], color="#4ade80")
-            st.caption("Número absoluto de questões auditadas (2022–2026).")
-            st.markdown('</div>', unsafe_allow_html=True)
-        with col_g2:
-            st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
-            st.subheader("Percentual de Incidência (%)")
-            st.bar_chart(df_1fase.set_index("tema")["porcentagem"], color="#f87171")
-            st.caption("Peso proporcional de cada tema na prova objetiva.")
-            st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
+        st.subheader("Incidência de Questões por Tema Jurídico")
+        st.bar_chart(df_1fase.set_index("tema")["questoes"], color="#4ade80")
+        st.caption("Passe o cursor sobre as barras para visualizar o número exato de questões cobradas entre 2022 e 2026.")
+        st.markdown('</div>', unsafe_allow_html=True)
         
     with tab2:
+        st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
+        st.subheader("Dados Auditados da Prova Objetiva")
+        filtro_tendencia = st.multiselect("Filtrar por tendência de cobrança:", options=["Alta", "Estável", "Queda"], default=["Alta", "Estável", "Queda"])
+        df_filtrado = df_1fase[df_1fase["tendencia"].isin(filtro_tendencia)]
+        st.dataframe(df_filtrado, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+        
+    with tab3:
+        st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
+        st.subheader("Mapeamento de Peças Prático-Profissionais")
+        df_2fase = pd.DataFrame(db["pecas_recorrentes_2a_fase"])
+        st.table(df_2fase)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
+    st.title("📝 Banco Inteligente de Questões (1ª Fase)")
+    
+    questoes = db["questoes_simulado"]
+    total_q = len(questoes)
+    
+    progresso = len(st.session_state.respondidas) / total_q
+    st.progress(progresso)
+    st.caption(f"Progresso do Simulado: **{len(st.session_state.respondidas)} de {total_q}** questões respondidas")
+    
+    temas_disponiveis = ["Todos os Temas"] + list(set([q["tema"] for q in questoes]))
+    tema_escolhido = st.selectbox("Filtrar questões por assunto jurídico:", temas_disponiveis)
+    
+    questoes_filtradas = questoes if tema_escolhido == "Todos os Temas" else [q for q in questoes if q["tema"] == tema_escolhido]
+    
+    lista_titulos = [f"Questão {q['id']} - {q['tema']}" for q in questoes_filtradas]
+    escolha_q = st.selectbox("Selecione a questão:", lista_titulos)
+    
+    idx = lista_titulos.index(escolha_q)
+    q_atual = questoes_filtradas[idx]
+    
