@@ -1,109 +1,164 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import json
 import pandas as pd
 
 st.set_page_config(page_title="LexAI OAB - Direito Administrativo", layout="wide", initial_sidebar_state="expanded")
 
-# FUNDO PRETO DINAMICO EM CSS PURO + TEMA ESCURO COM LETRAS BRANCAS
+# FUNDO BLACK DINAMICO COM PARTICULAS SUTIS
+fundo_dinamico = """
+<script>
+const parentDoc = window.parent.document;
+const oldCanvas = parentDoc.getElementById('bg-canvas-oab');
+if (oldCanvas) oldCanvas.remove();
+
+const canvas = parentDoc.createElement('canvas');
+canvas.id = 'bg-canvas-oab';
+canvas.style.position = 'fixed';
+canvas.style.top = '0';
+canvas.style.left = '0';
+canvas.style.width = '100vw';
+canvas.style.height = '100vh';
+canvas.style.zIndex = '0';
+canvas.style.pointerEvents = 'none';
+parentDoc.body.appendChild(canvas);
+
+const ctx = canvas.getContext('2d');
+let width = canvas.width = window.parent.innerWidth;
+let height = canvas.height = window.parent.innerHeight;
+
+window.parent.addEventListener('resize', () => {
+    width = canvas.width = window.parent.innerWidth;
+    height = canvas.height = window.parent.innerHeight;
+});
+
+const mouse = { x: null, y: null };
+window.parent.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+const particles = [];
+for (let i = 0; i < 60; i++) {
+    particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.7,
+        vy: (Math.random() - 0.5) * 0.7,
+        radius: Math.random() * 2 + 1
+    });
+}
+
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+            let p2 = particles[j];
+            let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+            if (dist < 130) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(56, 189, 248, ${0.2 - dist/650})`;
+                ctx.stroke();
+            }
+        }
+
+        if (mouse.x && mouse.y) {
+            let distMouse = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+            if (distMouse < 160) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.strokeStyle = `rgba(250, 204, 21, ${0.45 - distMouse/360})`;
+                ctx.stroke();
+            }
+        }
+    }
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+"""
+components.html(fundo_dinamico, height=0, width=0)
+
+# ESTILO BLACK COM ALTA LEGIBILIDADE PARA LEITURA E GRAFICOS
 st.markdown("""
     <style>
-    :root {
-        --primary-color: #38bdf8;
-        --background-color: #07090f;
-        --secondary-background-color: #111827;
-        --text-color: #ffffff;
-        --font: sans-serif;
-    }
-
-    @keyframes moverGrade {
-        0% { background-position: 0px 0px, 0px 0px, 0% 50%; }
-        50% { background-position: 40px 40px, 40px 40px, 100% 50%; }
-        100% { background-position: 80px 80px, 80px 80px, 0% 50%; }
-    }
-
     .stApp {
-        background-color: #07090f !important;
-        background-image: 
-            radial-gradient(circle at 20% 25%, rgba(56, 189, 248, 0.14) 0%, transparent 45%),
-            radial-gradient(circle at 80% 75%, rgba(250, 204, 21, 0.10) 0%, transparent 45%),
-            linear-gradient(rgba(56, 189, 248, 0.06) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(56, 189, 248, 0.06) 1px, transparent 1px) !important;
-        background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px !important;
-        animation: moverGrade 14s linear infinite !important;
-        color: #ffffff !important;
+        background-color: #050505 !important;
     }
-
-    [data-testid="stAppViewContainer"], [data-testid="stMain"] {
+    [data-testid="stAppViewContainer"] {
         background: transparent !important;
-        position: relative !important;
-        z-index: 1 !important;
+        position: relative;
+        z-index: 2 !important;
     }
-
     [data-testid="stHeader"] {
-        background-color: rgba(7, 9, 15, 0.85) !important;
-        z-index: 2 !important;
+        background-color: rgba(5, 5, 5, 0.8) !important;
+        z-index: 3 !important;
     }
-
     [data-testid="stSidebar"] {
-        background-color: #0d1322 !important;
-        border-right: 1px solid #1e293b !important;
-        z-index: 2 !important;
+        background-color: #0c0c0e !important;
+        border-right: 1px solid #27272a !important;
+        z-index: 3 !important;
     }
-
-    /* Títulos e Textos em Branco e Destaques Claros */
     h1, h2 {
         color: #38bdf8 !important;
     }
     h3, h4, h5, h6 {
         color: #facc15 !important;
     }
-    p, span, label, li, div, td, th, code, pre, .stMarkdown {
-        color: #ffffff !important;
+    p, span, label, li, td, th, code, pre, .stMarkdown, [data-testid="stRadio"] label p, [data-testid="stCheckbox"] label p {
+        color: #f4f4f5 !important;
     }
     strong, b {
-        color: #7dd3fc !important;
+        color: #38bdf8 !important;
     }
     .stCaption, [data-testid="stCaptionContainer"] p {
-        color: #cbd5e1 !important;
+        color: #a1a1aa !important;
     }
-
-    /* Quadros e Cartões */
     .quadro-destaque {
-        background-color: rgba(17, 24, 39, 0.92);
-        border: 1px solid #334155;
+        background-color: #111115;
+        border: 1px solid #27272a;
         border-left: 5px solid #38bdf8;
         border-radius: 10px;
         padding: 18px;
         margin-bottom: 16px;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.65);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
     }
-
-    /* Tabelas */
     table, thead, tbody, tr, th, td {
-        background-color: #111827 !important;
-        border-color: #334155 !important;
-        color: #ffffff !important;
+        background-color: #111115 !important;
+        border-color: #27272a !important;
+        color: #f4f4f5 !important;
     }
     th {
         color: #facc15 !important;
         font-weight: bold !important;
     }
-
-    /* Abas */
     button[data-baseweb="tab"] p {
-        color: #cbd5e1 !important;
+        color: #a1a1aa !important;
     }
     button[data-baseweb="tab"][aria-selected="true"] p {
         color: #38bdf8 !important;
         font-weight: bold !important;
     }
-
-    /* Cards de Métricas */
     .stMetric {
-        background-color: rgba(17, 24, 39, 0.92) !important;
+        background-color: #111115 !important;
         padding: 18px !important;
         border-radius: 12px !important;
-        border: 1px solid #334155 !important;
+        border: 1px solid #27272a !important;
         border-left: 5px solid #38bdf8 !important;
     }
     [data-testid="stMetricValue"] div {
@@ -112,44 +167,39 @@ st.markdown("""
     [data-testid="stMetricDelta"] div {
         color: #4ade80 !important;
     }
-
-    /* Botões */
-    div.stButton > button {
+    div.stButton > button:first-child {
         background-color: #0284c7 !important;
         color: #ffffff !important;
         width: 100%;
         border-radius: 8px;
         font-weight: bold;
         padding: 10px;
-        border: 1px solid #38bdf8 !important;
+        border: none !important;
     }
-    div.stButton > button:hover {
+    div.stButton > button:first-child:hover {
         background-color: #0369a1 !important;
         color: #ffffff !important;
     }
-
-    /* Caixas de Seleção, Inputs e Alertas */
-    textarea, input, div[data-baseweb="select"] > div {
-        background-color: #111827 !important;
-        color: #ffffff !important;
-        border: 1px solid #475569 !important;
-    }
-    ul[role="listbox"], ul[role="listbox"] li {
-        background-color: #111827 !important;
-        color: #ffffff !important;
-    }
-    [data-testid="stAlert"] {
-        background-color: #111827 !important;
-        border: 1px solid #38bdf8 !important;
-        color: #ffffff !important;
-    }
     .gabarito-box {
-        background-color: #0f172a;
+        background-color: #111115;
         padding: 18px;
         border-radius: 8px;
-        border: 1px solid #334155;
+        border: 1px solid #27272a;
         border-left: 5px solid #4ade80;
         margin-top: 15px;
+    }
+    textarea, input, div[data-baseweb="select"] > div {
+        background-color: #111115 !important;
+        color: #f4f4f5 !important;
+        border: 1px solid #3f3f46 !important;
+    }
+    ul[role="listbox"] li {
+        background-color: #111115 !important;
+        color: #f4f4f5 !important;
+    }
+    [data-testid="stAlert"] {
+        background-color: #111115 !important;
+        border: 1px solid #3f3f46 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -163,15 +213,13 @@ if "respondidas" not in st.session_state:
 if "temas_dificuldade" not in st.session_state:
     st.session_state.temas_dificuldade = []
 
-# Carregamento seguro do JSON
 try:
     with open('dados_oab.json', 'r', encoding='utf-8') as f:
         db = json.load(f)
-except Exception as e:
-    st.error(f"Erro ao carregar 'dados_oab.json': {e}")
+except FileNotFoundError:
+    st.error("Erro: Arquivo 'dados_oab.json' não encontrado no repositório.")
     st.stop()
 
-# MENU LATERAL
 st.sidebar.title("⚖️ LexAI OAB")
 st.sidebar.caption("Direito Administrativo | UNAMA")
 st.sidebar.markdown("---")
@@ -195,9 +243,7 @@ if st.sidebar.button("🔄 Zerar Progresso"):
     st.session_state.temas_dificuldade = []
     st.rerun()
 
-# ==========================================
 # MODULO 1: PAINEL ESTATISTICO INTERATIVO
-# ==========================================
 if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
     st.title("📊 Análise Estatística OAB (2022–2026)")
     st.markdown("### Mapeamento Metodológico de Direito Administrativo")
@@ -233,9 +279,7 @@ if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
         df_2fase = pd.DataFrame(db["pecas_recorrentes_2a_fase"])
         st.table(df_2fase)
 
-# ==========================================
 # MODULOS 2 e 3: SIMULADOR INTERATIVO
-# ==========================================
 elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
     st.title("📝 Banco Inteligente de Questões (1ª Fase)")
     st.markdown("### Simulador Dinâmico de Direito Administrativo")
@@ -243,41 +287,10 @@ elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
     questoes = db["questoes_simulado"]
     total_q = len(questoes)
     
-    progresso = len(st.session_state.respondidas) / total_q if total_q > 0 else 0
+    progresso = len(st.session_state.respondidas) / total_q
     st.progress(progresso)
     st.caption(f"Progresso do Simulado: **{len(st.session_state.respondidas)} de {total_q}** questões respondidas")
     
     temas_disponiveis = ["Todos os Temas"] + list(set([q["tema"] for q in questoes]))
     tema_escolhido = st.selectbox("Filtrar questões por assunto jurídico:", temas_disponiveis)
     
-    questoes_filtradas = questoes if tema_escolhido == "Todos os Temas" else [q for q in questoes if q["tema"] == tema_escolhido]
-    
-    lista_titulos = [f"Questão {q['id']} - {q['tema']}" for q in questoes_filtradas]
-    escolha_q = st.selectbox("Selecione a questão:", lista_titulos)
-    
-    idx = lista_titulos.index(escolha_q)
-    q_atual = questoes_filtradas[idx]
-    
-    st.markdown("---")
-    st.markdown(f"""
-    <div class="quadro-destaque">
-        <h4>📌 Tema: {q_atual['tema']}</h4>
-        <p><strong>Enunciado:</strong> {q_atual['enunciado']}</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    alternativas_dict = q_atual["alternativas"]
-    opcoes_radio = [
-        f"A) {alternativas_dict['A']}",
-        f"B) {alternativas_dict['B']}",
-        f"C) {alternativas_dict['C']}",
-        f"D) {alternativas_dict['D']}"
-    ]
-    
-    resposta_usuario = st.radio("Marque sua resposta:", opcoes_radio, key=f"radio_{q_atual['id']}")
-    
-    col_btn1, col_btn2 = st.columns(2)
-    validar = col_btn1.button("✅ Confirmar Resposta", key=f"btn_{q_atual['id']}")
-    marcar_dificuldade = col_btn2.button("🚩 Registrar Dificuldade neste Tema", key=f"dif_{q_atual['id']}")
-        
-    if marcar_dificuldade:
