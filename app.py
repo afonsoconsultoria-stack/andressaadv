@@ -131,13 +131,12 @@ st.markdown("""
     strong, b, .stCaption, [data-testid="stCaptionContainer"] p {
         color: #f87171 !important;
     }
-    .quadro-destaque {
-        background-color: rgba(13, 21, 38, 0.92);
-        border: 1px solid #4ade80;
-        border-left: 6px solid #f87171;
-        border-radius: 10px;
-        padding: 18px;
-        margin-bottom: 16px;
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: rgba(13, 21, 38, 0.88) !important;
+        border: 1px solid rgba(74, 222, 128, 0.4) !important;
+        border-radius: 12px !important;
+        padding: 15px !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6) !important;
     }
     table, thead, tbody, tr, th, td {
         background-color: rgba(13, 21, 38, 0.95) !important;
@@ -179,6 +178,14 @@ st.markdown("""
         background-color: #7f1d1d !important;
         color: #fca5a5 !important;
         border: 1px solid #f87171 !important;
+    }
+    .gabarito-box {
+        background-color: rgba(15, 23, 42, 0.95);
+        padding: 18px;
+        border-radius: 8px;
+        border-left: 5px solid #f87171;
+        border-top: 1px solid rgba(74, 222, 128, 0.3);
+        margin-top: 15px;
     }
     textarea, input, div[data-baseweb="select"] > div {
         background-color: #0f172a !important;
@@ -274,13 +281,9 @@ if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
 # MODULOS 2 e 3: SIMULADOR INTERATIVO
 elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
     st.title("📝 Banco Inteligente de Questões (1ª Fase)")
-    st.markdown("### Simulador Dinâmico de Direito Administrativo")
     
     questoes = db["questoes_simulado"]
     total_q = len(questoes)
     
     progresso = len(st.session_state.respondidas) / total_q
     st.progress(progresso)
-    st.caption(f"Progresso do Simulado: **{len(st.session_state.respondidas)} de {total_q}** questões respondidas")
-    
-    temas_disponiveis = ["Todos os Temas"] + list(set([q["tema"] for q in questoes]))
