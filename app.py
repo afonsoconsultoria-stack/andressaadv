@@ -190,32 +190,3 @@ elif modulo == "🤖 Módulo 4: Corretor Inteligente":
                     "5. Notificação da Autoridade e MP"
                 ],
                 "Status": [
-"🟢 Contemplou" if c1 else "🔴 Omitiu",
-"🟢 Contemplou" if c2 else "🔴 Omitiu",
-"🟢 Contemplou" if c3 else "🔴 Omitiu",
-"🟢 Contemplou" if c4 else "🔴 Omitiu",
-"🟢 Contemplou" if c5 else "🔴 Omitiu"
-],
-"Nota": [
-"1,00 / 1,00" if c1 else "0,00 / 1,00",
-"1,00 / 1,00" if c2 else "0,00 / 1,00",
-"1,00 / 1,00" if c3 else "0,00 / 1,00",
-"1,50 / 1,50" if c4 else "0,00 / 1,50",
-"0,50 / 0,50" if c5 else "0,00 / 0,50"
-]
-})
-st.dataframe(res, use_container_width=True)
-elif modulo == "📅 Módulo 5: Plano de Revisão":
-st.title("📅 Plano de Estudos & Revisão Personalizada")
-st.markdown("### Organização Automática de Pontos Fracos e Metas")
-if not st.session_state.temas_dificuldade:
-st.markdown('🌟 Nenhuma dificuldade registrada até o momento!Responda às questões no Módulo 2 ou teste uma peça no Módulo 4 para gerar recomendações automáticas.', unsafe_allow_html=True)
-else:
-st.warning(f"📌 Foram identificados {len(st.session_state.temas_dificuldade)} tema(s) prioritário(s) para revisão:")
-for i, tema in enumerate(st.session_state.temas_dificuldade, 1):
-st.checkbox(f"Meta {i}: Revisar legislação, súmulas e jurisprudência sobre {tema}", key=f"chk_{i}")
-st.markdown("---")
-st.subheader("🗓️ Cronograma Sugerido de Alta Incidência (OAB)")
-ca, cb = st.columns(2)
-ca.markdown('Semana 1: Núcleo Duro (46,4% da Prova)• Leitura da Lei de Improbidade (Lei 14.230/21)• Estudo da Nova Lei de Licitações (Lei 14.133/21)', unsafe_allow_html=True)
-cb.markdown('Semana 2: Prática Processual (2ª Fase)• Estruturação de Mandado de Segurança (Lei 12.016/09)• Treino de Tutelas de Urgência em Ação Anulatória', unsafe_allow_html=True)
