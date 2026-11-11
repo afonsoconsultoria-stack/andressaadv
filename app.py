@@ -5,6 +5,7 @@ import pandas as pd
 
 st.set_page_config(page_title="LexAI OAB - Direito Administrativo", layout="wide", initial_sidebar_state="expanded")
 
+# 🌌 FUNDO INTERATIVO ESCURO COM PARTÍCULAS VERDE CLARO E VERMELHAS
 fundo_interativo = """
 <script>
 const parentDoc = window.parent.document;
@@ -98,6 +99,7 @@ animate();
 """
 components.html(fundo_interativo, height=0, width=0)
 
+# 🎨 TEMA ESCURO COM 100% DOS TEXTOS EM VERDE CLARO E VERMELHO
 st.markdown("""
     <style>
     .stApp {
@@ -116,6 +118,7 @@ st.markdown("""
         border-right: 1px solid rgba(74, 222, 128, 0.3);
         z-index: 2;
     }
+    /* Títulos em Verde Claro e Subtítulos em Vermelho Claro */
     h1, h2 {
         color: #4ade80 !important;
         text-shadow: 0 0 12px rgba(74, 222, 128, 0.25);
@@ -123,12 +126,15 @@ st.markdown("""
     h3, h4, h5, h6 {
         color: #f87171 !important;
     }
+    /* Todos os demais textos, listas, opções e células de tabela em Verde Claro */
     p, span, label, li, div, td, th, code, pre, .stMarkdown, [data-testid="stRadio"] label, [data-testid="stCheckbox"] label {
         color: #86efac !important;
     }
+    /* Destaques em negrito e legendas em Vermelho Claro para contraste */
     strong, b, .stCaption, [data-testid="stCaptionContainer"] p {
         color: #f87171 !important;
     }
+    /* Tabelas escuras */
     table, thead, tbody, tr, th, td {
         background-color: rgba(13, 20, 36, 0.92) !important;
         border-color: rgba(74, 222, 128, 0.3) !important;
@@ -137,6 +143,7 @@ st.markdown("""
         color: #f87171 !important;
         font-weight: bold !important;
     }
+    /* Abas (Tabs) */
     button[data-baseweb="tab"] p {
         color: #86efac !important;
     }
@@ -144,6 +151,7 @@ st.markdown("""
         color: #f87171 !important;
         font-weight: bold !important;
     }
+    /* Métricas */
     .stMetric {
         background-color: rgba(15, 23, 42, 0.88);
         backdrop-filter: blur(8px);
@@ -159,6 +167,7 @@ st.markdown("""
     [data-testid="stMetricDelta"] div {
         color: #f87171 !important;
     }
+    /* Cartões translúcidos */
     .card-juridico {
         background-color: rgba(13, 20, 36, 0.88);
         backdrop-filter: blur(10px);
@@ -168,6 +177,7 @@ st.markdown("""
         border: 1px solid rgba(74, 222, 128, 0.35);
         margin-bottom: 18px;
     }
+    /* Botões */
     div.stButton > button:first-child {
         background-color: #14532d !important;
         color: #86efac !important;
@@ -182,6 +192,7 @@ st.markdown("""
         color: #fca5a5 !important;
         border: 1px solid #f87171 !important;
     }
+    /* Caixa de Gabarito */
     .gabarito-box {
         background-color: rgba(15, 23, 42, 0.95);
         padding: 18px;
@@ -190,6 +201,7 @@ st.markdown("""
         border-top: 1px solid rgba(74, 222, 128, 0.3);
         margin-top: 15px;
     }
+    /* Inputs e Selectboxes */
     textarea, input, div[data-baseweb="select"] > div {
         background-color: #0f172a !important;
         color: #86efac !important;
@@ -199,6 +211,7 @@ st.markdown("""
         background-color: #0f172a !important;
         color: #86efac !important;
     }
+    /* Alertas (st.info, st.warning, st.success, st.error) */
     [data-testid="stAlert"] {
         background-color: rgba(15, 23, 42, 0.92) !important;
         border: 1px solid #f87171 !important;
@@ -278,13 +291,3 @@ if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
             st.markdown('</div>', unsafe_allow_html=True)
         
     with tab2:
-        st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
-        st.subheader("Dados Auditados da Prova Objetiva")
-        filtro_tendencia = st.multiselect("Filtrar por tendência de cobrança:", options=["Alta", "Estável", "Queda"], default=["Alta", "Estável", "Queda"])
-        df_filtrado = df_1fase[df_1fase["tendencia"].isin(filtro_tendencia)]
-        st.table(df_filtrado)
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-    with tab3:
-        st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
-        st.subheader("Mapeamento de Peças Prático-Profissionais")
