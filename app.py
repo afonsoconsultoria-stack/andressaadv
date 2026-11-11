@@ -198,3 +198,21 @@ elif modulo == "🤖 Módulo 4: Corretor Inteligente":
             c2 = any(p in texto for p in ["12.016", "lxix", "5º", "mandado de segurança"])
             c3 = any(p in texto for p in ["líquido e certo", "liquido e certo", "ilegal", "direito"])
             c4 = any(p in texto for p in ["liminar", "fumus", "periculum", "urgência", "urgencia"])
+c5 = any(p in texto for p in ["notificação", "notificacao", "autoridade coatora", "ministério público", "ministerio publico"])
+nota_total = (1.0 if c1 else 0.0) + (1.0 if c2 else 0.0) + (1.0 if c3 else 0.0) + (1.5 if c4 else 0.0) + (0.5 if c5 else 0.0)
+st.markdown("---")
+st.subheader(f"🎯 Nota Final Simulada: {nota_total:.2f} / 5,00 pontos")
+if nota_total >= 3.0:
+st.success("🎉 APROVADO NA SIMULAÇÃO! Você atingiu a pontuação mínima exigida pela OAB.")
+else:
+st.error("⚠️ NOTA INSUFICIENTE. Revise os itens omitidos abaixo para alcançar os 3,00 pontos.")
+if "Mandado de Segurança (2ª Fase)" not in st.session_state.temas_dificuldade:
+st.session_state.temas_dificuldade.append("Mandado de Segurança (2ª Fase)")
+resultados = [
+{"Critério Oficial": "1. Endereçamento (Vara da Fazenda Pública)", "Status": "🟢 Contemplou" if c1 else "🔴 Omitiu", "Nota": "1,00 / 1,00" if c1 else "0,00 / 1,00"},
+{"Critério Oficial": "2. Fundamentação (CF Art. 5º, LXIX e Lei 12.016/09)", "Status": "🟢 Contemplou" if c2 else "🔴 Omitiu", "Nota": "1,00 / 1,00" if c2 else "0,00 / 1,00"},
+{"Critério Oficial": "3. Mérito (Direito Líquido e Certo)", "Status": "🟢 Contemplou" if c3 else "🔴 Omitiu", "Nota": "1,00 / 1,00" if c3 else "0,00 / 1,00"},
+{"Critério Oficial": "4. Pedido de Medida Liminar", "Status": "🟢 Contemplou" if c4 else "🔴 Omitiu", "Nota": "1,50 / 1,50" if c4 else "0,00 / 1,50"},
+{"Critério Oficial": "5. Notificação da Autoridade e MP", "Status": "🟢 Contemplou" if c5 else "🔴 Omitiu", "Nota": "0,50 / 0,50" if c5 else "0,00 / 0,50"}
+]
+st.table(pd.DataFrame(resultados))
