@@ -23,7 +23,8 @@ except FileNotFoundError:
     st.stop()
 
 # 📌 Menu Lateral de Navegação por Módulos
-st.sidebar.title("⚖️ LexAI OAB")
+st.sidebar.image("https://flaticon.com", width=70)
+st.sidebar.title("LexAI OAB")
 st.sidebar.caption("Direito Administrativo | UNAMA")
 st.sidebar.markdown("---")
 modulo = st.sidebar.radio("Navegar pelos Módulos:", [
