@@ -5,143 +5,183 @@ import pandas as pd
 
 st.set_page_config(page_title="LexAI OAB - Direito Administrativo", layout="wide", initial_sidebar_state="expanded")
 
+# 🌌 FUNDO INTERATIVO ESCURO COM PARTÍCULAS VERDE CLARO E VERMELHAS
 fundo_interativo = """
 <script>
 const parentDoc = window.parent.document;
-if (!parentDoc.getElementById('bg-canvas-oab')) {
-    const canvas = parentDoc.createElement('canvas');
-    canvas.id = 'bg-canvas-oab';
-    canvas.style.position = 'fixed';
-    canvas.style.top = '0';
-    canvas.style.left = '0';
-    canvas.style.width = '100vw';
-    canvas.style.height = '100vh';
-    canvas.style.zIndex = '0';
-    canvas.style.pointerEvents = 'none';
-    parentDoc.body.appendChild(canvas);
+const oldCanvas = parentDoc.getElementById('bg-canvas-oab');
+if (oldCanvas) oldCanvas.remove();
 
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.parent.innerWidth;
-    let height = canvas.height = window.parent.innerHeight;
+const canvas = parentDoc.createElement('canvas');
+canvas.id = 'bg-canvas-oab';
+canvas.style.position = 'fixed';
+canvas.style.top = '0';
+canvas.style.left = '0';
+canvas.style.width = '100vw';
+canvas.style.height = '100vh';
+canvas.style.zIndex = '0';
+canvas.style.pointerEvents = 'none';
+parentDoc.body.appendChild(canvas);
 
-    window.parent.addEventListener('resize', () => {
-        width = canvas.width = window.parent.innerWidth;
-        height = canvas.height = window.parent.innerHeight;
+const ctx = canvas.getContext('2d');
+let width = canvas.width = window.parent.innerWidth;
+let height = canvas.height = window.parent.innerHeight;
+
+window.parent.addEventListener('resize', () => {
+    width = canvas.width = window.parent.innerWidth;
+    height = canvas.height = window.parent.innerHeight;
+});
+
+const mouse = { x: null, y: null };
+window.parent.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+const particles = [];
+for (let i = 0; i < 70; i++) {
+    particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.9,
+        vy: (Math.random() - 0.5) * 0.9,
+        radius: Math.random() * 2.5 + 1.2,
+        isGreen: i % 2 === 0
     });
+}
 
-    const mouse = { x: null, y: null };
-    window.parent.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
 
-    const particles = [];
-    for (let i = 0; i < 65; i++) {
-        particles.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 0.8,
-            vy: (Math.random() - 0.5) * 0.8,
-            radius: Math.random() * 2.5 + 1
-        });
-    }
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
 
-    function animate() {
-        ctx.clearRect(0, 0, width, height);
-        for (let i = 0; i < particles.length; i++) {
-            let p = particles[i];
-            p.x += p.vx;
-            p.y += p.vy;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.isGreen ? 'rgba(74, 222, 128, 0.65)' : 'rgba(248, 113, 113, 0.65)';
+        ctx.fill();
 
-            if (p.x < 0 || p.x > width) p.vx *= -1;
-            if (p.y < 0 || p.y > height) p.vy *= -1;
-
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(30, 58, 138, 0.35)';
-            ctx.fill();
-
-            for (let j = i + 1; j < particles.length; j++) {
-                let p2 = particles[j];
-                let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                if (dist < 130) {
-                    ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(p2.x, p2.y);
-                    ctx.strokeStyle = `rgba(30, 58, 138, ${0.18 - dist/750})`;
-                    ctx.stroke();
-                }
-            }
-
-            if (mouse.x && mouse.y) {
-                let distMouse = Math.hypot(p.x - mouse.x, p.y - mouse.y);
-                if (distMouse < 160) {
-                    ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(mouse.x, mouse.y);
-                    ctx.strokeStyle = `rgba(217, 119, 6, ${0.4 - distMouse/400})`;
-                    ctx.stroke();
-                }
+        for (let j = i + 1; j < particles.length; j++) {
+            let p2 = particles[j];
+            let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+            if (dist < 135) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = p.isGreen 
+                    ? `rgba(74, 222, 128, ${0.25 - dist/550})` 
+                    : `rgba(248, 113, 113, ${0.25 - dist/550})`;
+                ctx.stroke();
             }
         }
-        requestAnimationFrame(animate);
+
+        if (mouse.x && mouse.y) {
+            let distMouse = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+            if (distMouse < 170) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.strokeStyle = p.isGreen 
+                    ? `rgba(74, 222, 128, ${0.55 - distMouse/320})` 
+                    : `rgba(248, 113, 113, ${0.55 - distMouse/320})`;
+                ctx.stroke();
+            }
+        }
     }
-    animate();
+    requestAnimationFrame(animate);
 }
+animate();
 </script>
 """
 components.html(fundo_interativo, height=0, width=0)
 
+# 🎨 TEMA ESCURO COM LETRAS VERDE CLARAS E VERMELHAS
 st.markdown("""
     <style>
     .stApp {
-        background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+        background: linear-gradient(135deg, #05080f 0%, #0b1324 100%);
+        color: #86efac;
     }
     [data-testid="stAppViewContainer"] > .main {
         position: relative;
         z-index: 1;
     }
+    [data-testid="stHeader"] {
+        background-color: rgba(5, 8, 15, 0.6);
+    }
     [data-testid="stSidebar"] {
-        background-color: rgba(255, 255, 255, 0.88);
-        backdrop-filter: blur(10px);
+        background-color: rgba(10, 15, 28, 0.90);
+        backdrop-filter: blur(12px);
+        border-right: 1px solid rgba(74, 222, 128, 0.25);
         z-index: 2;
     }
+    h1, h2 {
+        color: #4ade80 !important;
+        text-shadow: 0 0 12px rgba(74, 222, 128, 0.25);
+    }
+    h3, h4, h5 {
+        color: #f87171 !important;
+    }
+    p, label, span, li, .stMarkdown {
+        color: #86efac !important;
+    }
+    .stCaption {
+        color: #fca5a5 !important;
+    }
     .stMetric {
-        background-color: rgba(255, 255, 255, 0.85);
+        background-color: rgba(15, 23, 42, 0.85);
         backdrop-filter: blur(8px);
         padding: 18px;
         border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        border-left: 5px solid #1E3A8A;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        border-left: 5px solid #4ade80;
+        border-top: 1px solid rgba(248, 113, 113, 0.25);
+    }
+    [data-testid="stMetricValue"] {
+        color: #4ade80 !important;
+    }
+    [data-testid="stMetricDelta"] {
+        color: #f87171 !important;
     }
     .card-juridico {
-        background-color: rgba(255, 255, 255, 0.88);
+        background-color: rgba(13, 20, 36, 0.88);
         backdrop-filter: blur(10px);
         padding: 22px;
         border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        border: 1px solid rgba(30, 58, 138, 0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        border: 1px solid rgba(74, 222, 128, 0.3);
         margin-bottom: 18px;
     }
     div.stButton > button:first-child {
-        background-color: #1E3A8A;
-        color: white;
+        background-color: #14532d;
+        color: #86efac !important;
         width: 100%;
         border-radius: 8px;
         font-weight: bold;
         padding: 10px;
-        border: none;
+        border: 1px solid #4ade80;
     }
     div.stButton > button:first-child:hover {
-        background-color: #1e40af;
-        color: white;
+        background-color: #7f1d1d;
+        color: #fca5a5 !important;
+        border: 1px solid #f87171;
     }
     .gabarito-box {
-        background-color: rgba(224, 242, 254, 0.92);
+        background-color: rgba(15, 23, 42, 0.95);
         padding: 18px;
         border-radius: 8px;
-        border-left: 5px solid #0284C7;
+        border-left: 5px solid #f87171;
+        border-top: 1px solid rgba(74, 222, 128, 0.3);
         margin-top: 15px;
+    }
+    textarea, input, select {
+        background-color: #0f172a !important;
+        color: #86efac !important;
+        border: 1px solid #4ade80 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -205,7 +245,7 @@ if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
     with tab1:
         st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
         st.subheader("Incidência de Questões por Tema Jurídico")
-        st.bar_chart(df_1fase.set_index("tema")["questoes"], color="#1E3A8A")
+        st.bar_chart(df_1fase.set_index("tema")["questoes"], color="#4ade80")
         st.caption("Passe o cursor sobre as barras para visualizar o número exato de questões cobradas entre 2022 e 2026.")
         st.markdown('</div>', unsafe_allow_html=True)
         
@@ -245,31 +285,3 @@ elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
     idx = lista_titulos.index(escolha_q)
     q_atual = questoes_filtradas[idx]
     
-    st.markdown('<div class="card-juridico">', unsafe_allow_html=True)
-    st.info(f"**Assunto:** {q_atual['tema']}")
-    st.markdown(f"**Enunciado:**\n{q_atual['enunciado']}")
-    
-    alternativas_dict = q_atual["alternativas"]
-    opcoes_radio = [
-        f"A) {alternativas_dict['A']}",
-        f"B) {alternativas_dict['B']}",
-        f"C) {alternativas_dict['C']}",
-        f"D) {alternativas_dict['D']}"
-    ]
-    
-    resposta_usuario = st.radio("Marque sua resposta:", opcoes_radio, key=f"radio_{q_atual['id']}")
-    
-    col_btn1, col_btn2 = st.columns(2)
-    with col_btn1:
-        validar = st.button("✅ Confirmar Resposta", key=f"btn_{q_atual['id']}")
-    with col_btn2:
-        marcar_dificuldade = st.button("🚩 Registrar Dificuldade neste Tema", key=f"dif_{q_atual['id']}")
-        
-    if marcar_dificuldade:
-        if q_atual["tema"] not in st.session_state.temas_dificuldade:
-            st.session_state.temas_dificuldade.append(q_atual["tema"])
-        st.warning(f"Tema **{q_atual['tema']}** adicionado ao seu Plano de Revisão (Módulo 5)!")
-
-    if validar:
-        letra_marcada = resposta_usuario[0]
-        
