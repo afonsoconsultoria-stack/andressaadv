@@ -1,205 +1,50 @@
 import streamlit as st
-import streamlit.components.v1 as components
 import json
 import pandas as pd
 
 st.set_page_config(page_title="LexAI OAB - Direito Administrativo", layout="wide", initial_sidebar_state="expanded")
 
-# FUNDO BLACK DINAMICO COM PARTICULAS SUTIS
-fundo_dinamico = """
-<script>
-const parentDoc = window.parent.document;
-const oldCanvas = parentDoc.getElementById('bg-canvas-oab');
-if (oldCanvas) oldCanvas.remove();
-
-const canvas = parentDoc.createElement('canvas');
-canvas.id = 'bg-canvas-oab';
-canvas.style.position = 'fixed';
-canvas.style.top = '0';
-canvas.style.left = '0';
-canvas.style.width = '100vw';
-canvas.style.height = '100vh';
-canvas.style.zIndex = '0';
-canvas.style.pointerEvents = 'none';
-parentDoc.body.appendChild(canvas);
-
-const ctx = canvas.getContext('2d');
-let width = canvas.width = window.parent.innerWidth;
-let height = canvas.height = window.parent.innerHeight;
-
-window.parent.addEventListener('resize', () => {
-    width = canvas.width = window.parent.innerWidth;
-    height = canvas.height = window.parent.innerHeight;
-});
-
-const mouse = { x: null, y: null };
-window.parent.addEventListener('mousemove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-});
-
-const particles = [];
-for (let i = 0; i < 60; i++) {
-    particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.7,
-        vy: (Math.random() - 0.5) * 0.7,
-        radius: Math.random() * 2 + 1
-    });
-}
-
-function animate() {
-    ctx.clearRect(0, 0, width, height);
-    for (let i = 0; i < particles.length; i++) {
-        let p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
-        ctx.fill();
-
-        for (let j = i + 1; j < particles.length; j++) {
-            let p2 = particles[j];
-            let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-            if (dist < 130) {
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.strokeStyle = `rgba(56, 189, 248, ${0.2 - dist/650})`;
-                ctx.stroke();
-            }
-        }
-
-        if (mouse.x && mouse.y) {
-            let distMouse = Math.hypot(p.x - mouse.x, p.y - mouse.y);
-            if (distMouse < 160) {
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.strokeStyle = `rgba(250, 204, 21, ${0.45 - distMouse/360})`;
-                ctx.stroke();
-            }
-        }
-    }
-    requestAnimationFrame(animate);
-}
-animate();
-</script>
-"""
-components.html(fundo_dinamico, height=0, width=0)
-
-# ESTILO BLACK COM ALTA LEGIBILIDADE PARA LEITURA E GRAFICOS
+# ESTILO VISUAL CLARO E LIMPO (LEGAL DESIGN)
 st.markdown("""
     <style>
-    .stApp {
-        background-color: #050505 !important;
+    .main {
+        background-color: #f8fafc;
     }
-    [data-testid="stAppViewContainer"] {
-        background: transparent !important;
-        position: relative;
-        z-index: 2 !important;
-    }
-    [data-testid="stHeader"] {
-        background-color: rgba(5, 5, 5, 0.8) !important;
-        z-index: 3 !important;
-    }
-    [data-testid="stSidebar"] {
-        background-color: #0c0c0e !important;
-        border-right: 1px solid #27272a !important;
-        z-index: 3 !important;
-    }
-    h1, h2 {
-        color: #38bdf8 !important;
-    }
-    h3, h4, h5, h6 {
-        color: #facc15 !important;
-    }
-    p, span, label, li, td, th, code, pre, .stMarkdown, [data-testid="stRadio"] label p, [data-testid="stCheckbox"] label p {
-        color: #f4f4f5 !important;
-    }
-    strong, b {
-        color: #38bdf8 !important;
-    }
-    .stCaption, [data-testid="stCaptionContainer"] p {
-        color: #a1a1aa !important;
+    .stMetric {
+        background-color: #ffffff;
+        padding: 18px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        border-left: 5px solid #1E3A8A;
     }
     .quadro-destaque {
-        background-color: #111115;
-        border: 1px solid #27272a;
-        border-left: 5px solid #38bdf8;
+        background-color: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-left: 6px solid #1E3A8A;
         border-radius: 10px;
         padding: 18px;
         margin-bottom: 16px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
-    }
-    table, thead, tbody, tr, th, td {
-        background-color: #111115 !important;
-        border-color: #27272a !important;
-        color: #f4f4f5 !important;
-    }
-    th {
-        color: #facc15 !important;
-        font-weight: bold !important;
-    }
-    button[data-baseweb="tab"] p {
-        color: #a1a1aa !important;
-    }
-    button[data-baseweb="tab"][aria-selected="true"] p {
-        color: #38bdf8 !important;
-        font-weight: bold !important;
-    }
-    .stMetric {
-        background-color: #111115 !important;
-        padding: 18px !important;
-        border-radius: 12px !important;
-        border: 1px solid #27272a !important;
-        border-left: 5px solid #38bdf8 !important;
-    }
-    [data-testid="stMetricValue"] div {
-        color: #ffffff !important;
-    }
-    [data-testid="stMetricDelta"] div {
-        color: #4ade80 !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
     }
     div.stButton > button:first-child {
-        background-color: #0284c7 !important;
-        color: #ffffff !important;
+        background-color: #1E3A8A;
+        color: white;
         width: 100%;
         border-radius: 8px;
         font-weight: bold;
         padding: 10px;
-        border: none !important;
+        border: none;
     }
     div.stButton > button:first-child:hover {
-        background-color: #0369a1 !important;
-        color: #ffffff !important;
+        background-color: #1e40af;
+        color: white;
     }
     .gabarito-box {
-        background-color: #111115;
+        background-color: #E0F2FE;
         padding: 18px;
         border-radius: 8px;
-        border: 1px solid #27272a;
-        border-left: 5px solid #4ade80;
+        border-left: 5px solid #0284C7;
         margin-top: 15px;
-    }
-    textarea, input, div[data-baseweb="select"] > div {
-        background-color: #111115 !important;
-        color: #f4f4f5 !important;
-        border: 1px solid #3f3f46 !important;
-    }
-    ul[role="listbox"] li {
-        background-color: #111115 !important;
-        color: #f4f4f5 !important;
-    }
-    [data-testid="stAlert"] {
-        background-color: #111115 !important;
-        border: 1px solid #3f3f46 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -261,11 +106,11 @@ if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
     with tab1:
         col_g1, col_g2 = st.columns(2)
         col_g1.subheader("Quantidade de Questões por Tema")
-        col_g1.bar_chart(df_1fase.set_index("tema")["questoes"], color="#38bdf8")
+        col_g1.bar_chart(df_1fase.set_index("tema")["questoes"], color="#1E3A8A")
         col_g1.caption("Número absoluto de questões auditadas (2022–2026).")
         
         col_g2.subheader("Percentual de Incidência (%)")
-        col_g2.bar_chart(df_1fase.set_index("tema")["porcentagem"], color="#facc15")
+        col_g2.bar_chart(df_1fase.set_index("tema")["porcentagem"], color="#0284C7")
         col_g2.caption("Peso proporcional de cada tema na prova objetiva.")
         
     with tab2:
@@ -294,3 +139,94 @@ elif modulo == "📝 Módulos 2 e 3: Simulador Interativo":
     temas_disponiveis = ["Todos os Temas"] + list(set([q["tema"] for q in questoes]))
     tema_escolhido = st.selectbox("Filtrar questões por assunto jurídico:", temas_disponiveis)
     
+    questoes_filtradas = questoes if tema_escolhido == "Todos os Temas" else [q for q in questoes if q["tema"] == tema_escolhido]
+    
+    lista_titulos = [f"Questão {q['id']} - {q['tema']}" for q in questoes_filtradas]
+    escolha_q = st.selectbox("Selecione a questão:", lista_titulos)
+    
+    idx = lista_titulos.index(escolha_q)
+    q_atual = questoes_filtradas[idx]
+    
+    st.markdown("---")
+    st.markdown(f"""
+    <div class="quadro-destaque">
+        <h4>📌 Tema: {q_atual['tema']}</h4>
+        <p><strong>Enunciado:</strong> {q_atual['enunciado']}</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    alternativas_dict = q_atual["alternativas"]
+    opcoes_radio = [
+        f"A) {alternativas_dict['A']}",
+        f"B) {alternativas_dict['B']}",
+        f"C) {alternativas_dict['C']}",
+        f"D) {alternativas_dict['D']}"
+    ]
+    
+    resposta_usuario = st.radio("Marque sua resposta:", opcoes_radio, key=f"radio_{q_atual['id']}")
+    
+    col_btn1, col_btn2 = st.columns(2)
+    validar = col_btn1.button("✅ Confirmar Resposta", key=f"btn_{q_atual['id']}")
+    marcar_dificuldade = col_btn2.button("🚩 Registrar Dificuldade neste Tema", key=f"dif_{q_atual['id']}")
+        
+    if marcar_dificuldade:
+        if q_atual["tema"] not in st.session_state.temas_dificuldade:
+            st.session_state.temas_dificuldade.append(q_atual["tema"])
+        st.warning(f"Tema **{q_atual['tema']}** adicionado ao seu Plano de Revisão (Módulo 5)!")
+
+    if validar:
+        letra_marcada = resposta_usuario[0]
+        
+        if q_atual["id"] not in st.session_state.respondidas:
+            st.session_state.respondidas.append(q_atual["id"])
+            if letra_marcada == q_atual["correta"]:
+                st.session_state.acertos += 1
+            else:
+                st.session_state.erros += 1
+                if q_atual["tema"] not in st.session_state.temas_dificuldade:
+                    st.session_state.temas_dificuldade.append(q_atual["tema"])
+        
+        if letra_marcada == q_atual["correta"]:
+            st.success("🟢 **Resposta CORRETA!** Pontuação contabilizada no seu painel lateral.")
+        else:
+            st.error(f"🔴 **Resposta INCORRETA.** A alternativa correta da FGV é a Letra **{q_atual['correta']}**. Este tema foi salvo na sua lista de revisão.")
+        
+        st.markdown(f"""
+        <div class="gabarito-box">
+            <h5 style="color:#0369a1; margin:0 0 8px 0;">💡 Fundamentação Legal e Gabarito Oficial</h5>
+            <p style="color:#0c4a6e; font-size:15px; margin:0;">{q_atual['gabarito_comentado']}</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+# MODULO 4: CORRETOR DINAMICO DE 2a FASE
+elif modulo == "🤖 Módulo 4: Corretor Inteligente":
+    st.title("🤖 Corretor Pedagógico de Peças (2ª Fase)")
+    st.markdown("### Avaliação Automatizada Baseada no Espelho Oficial FGV")
+    
+    st.markdown("""
+    <div class="quadro-destaque">
+        <h4>📄 Caso Prático Proposto: Mandado de Segurança</h4>
+        <p><strong>Situação:</strong> Candidato aprovado dentro das vagas em concurso público estadual foi ilegalmente eliminado na fase documental por ato do Secretário de Administração. Redija os tópicos principais do <strong>Mandado de Segurança</strong> cabível.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.subheader("📋 Critérios do Espelho Oficial (5,00 Pontos)")
+    st.code("""1. Endereçamento ao Juízo da Vara da Fazenda Pública Estadual (1,00 pt)
+2. Fundamentação legal: Art. 5º, LXIX da CF e Lei 12.016/09 (1,00 pt)
+3. Demonstração do Direito Líquido e Certo violado (1,00 pt)
+4. Pedido de Medida Liminar: Fumus Boni Iuris e Periculum in Mora (1,50 pt)
+5. Pedido de notificação da Autoridade Coatora e intimação do MP (0,50 pt)""", language="text")
+    
+    st.markdown("---")
+    resposta_aluno = st.text_area("✍️ Escreva ou cole sua resposta jurídica abaixo para correção em tempo real:", height=180, placeholder="Ex: Excelentíssimo Senhor Doutor Juiz de Direito da Vara da Fazenda Pública... Com fundamento na Lei 12.016/09, vem impetrar Mandado de Segurança com pedido de liminar...")
+    
+    if st.button("🚀 Executar Correção Inteligente"):
+        if len(resposta_aluno.strip()) < 15:
+            st.warning("Por favor, digite uma resposta mais completa para que o corretor possa avaliar os requisitos jurídicos.")
+        else:
+            texto = resposta_aluno.lower()
+            
+            c1 = any(p in texto for p in ["fazenda pública", "fazenda publica", "juiz de direito"])
+            c2 = any(p in texto for p in ["12.016", "lxix", "5º", "mandado de segurança"])
+            c3 = any(p in texto for p in ["líquido e certo", "liquido e certo", "ilegal", "direito"])
+            c4 = any(p in texto for p in ["liminar", "fumus", "periculum", "urgência", "urgencia"])
