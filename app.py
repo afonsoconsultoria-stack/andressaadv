@@ -12,6 +12,19 @@ st.markdown("""
     div.stButton > button:first-child {background-color: #1E3A8A; color: white; width: 100%; border-radius: 5px; font-weight: bold;}
     .gabarito-box {background-color: #E0F2FE; padding: 18px; border-radius: 6px; border-left: 5px solid #0284C7; margin-top: 15px;}
     </style>
+    [data-testid="stMetric"], .stMetric {
+    background-color: #0f172a !important;
+    border: 1px solid #334155 !important;
+    border-left: 5px solid #38bdf8 !important;
+    border-radius: 10px !important;
+    padding: 18px !important;
+}
+[data-testid="stMetricLabel"] p {
+    color: #94a3b8 !important;
+}
+[data-testid="stMetricValue"] div {
+    color: #ffffff !important;
+}
 """, unsafe_allow_html=True)
 
 # Carregamento seguro da Base de Dados de Direito Administrativo
