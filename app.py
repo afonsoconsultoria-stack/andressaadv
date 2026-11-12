@@ -12,7 +12,7 @@ st.markdown("""
     div.stButton > button:first-child {background-color: #1E3A8A; color: white; width: 100%; border-radius: 5px; font-weight: bold;}
     .gabarito-box {background-color: #E0F2FE; padding: 18px; border-radius: 6px; border-left: 5px solid #0284C7; margin-top: 15px;}
     </style>
-""", unsafe_allowed_html=True)
+""", unsafe_allow_html=True)
 
 # Carregamento seguro da Base de Dados de Direito Administrativo
 try:
@@ -50,7 +50,7 @@ if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
         
     st.markdown("#### Ranking de Incidência - Prova Objetiva")
     df_1fase = pd.DataFrame(db["estatisticas_1a_fase"])
-    st.dataframe(df_1fase.style.background_gradient(cmap="Blues", subset=["porcentagem"]), use_container_width=True)
+    st.dataframe(df_1fase, use_container_width=True)
 
     st.markdown("---")
     st.markdown("### 🏛️ Mapeamento de Peças Prático-Profissionais [2ª Fase]")
@@ -66,11 +66,9 @@ elif modulo == "📝 Módulos 2 e 3: Simulador Prático":
     
     questoes = db["questoes_simulado"]
     
-    # Seletor numérico de questões para dar dinamismo visual (Visual Law)
     lista_titulos = [f"Questão {q['id']} - {q['tema']}" for q in questoes]
     escolha_q = st.selectbox("Escolha a questão para responder:", lista_titulos)
     
-    # Resgata o índice da questão selecionada
     idx = lista_titulos.index(escolha_q)
     q_atual = questoes[idx]
     
@@ -88,20 +86,19 @@ elif modulo == "📝 Módulos 2 e 3: Simulador Prático":
     resposta_usuario = st.radio("Selecione sua resposta jurídica:", opcoes_radio, key=f"radio_{q_atual['id']}")
     
     if st.button("Validar Resposta na Banca", key=f"btn_{q_atual['id']}"):
-        letra_marcada = resposta_usuario[0]  # Pega o primeiro caractere ('A', 'B', etc.)
+        letra_marcada = resposta_usuario[0]
         
         if letra_marcada == q_atual["correta"]:
             st.success("🟢 **Resposta CORRETA!** Seu argumento bate com o gabarito definitivo da FGV.")
         else:
             st.error(f"🔴 **Resposta INCORRETA.** A alternativa correta apontada pela banca é a Letra {q_atual['correta']}.")
         
-        # Exibição pedagógica limpa do Gabarito (Legal Design)
         st.markdown(f"""
         <div class="gabarito-box">
             <h5 style="color:#0369a1; margin:0 0 8px 0;">💡 Fundamentação Legal e Justificativa</h5>
             <p style="color:#0c4a6e; font-size:14px; margin:0;">{q_atual['gabarito_comentado']}</p>
         </div>
-        """, unsafe_allowed_html=True)
+        """, unsafe_allow_html=True)
 
 # ==========================================
 # MÓDULO 4: CORRETOR DE INTELIGÊNCIA ARTIFICIAL
