@@ -2,143 +2,211 @@ import streamlit as st
 import json
 import pandas as pd
 
-# 🎨 DESIGN VISUAL: Configurações de Identidade e Layout (Visual Law)
-st.set_page_config(page_title="LexAI OAB - Direito Administrativo", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(
+    page_title="LexAI OAB - Direito Administrativo",
+    page_icon="⚖️",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
+# ESTILO DARK DINAMICO DE ALTA LEGIBILIDADE (VISUAL LAW & LEGAL DESIGN)
 st.markdown("""
-    <style>
-    .main {background-color: #fcfcfc;}
-    .stMetric {background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid #1E3A8A;}
-    div.stButton > button:first-child {background-color: #1E3A8A; color: white; width: 100%; border-radius: 5px; font-weight: bold;}
-    .gabarito-box {background-color: #E0F2FE; padding: 18px; border-radius: 6px; border-left: 5px solid #0284C7; margin-top: 15px;}
-    </style>
+<style>
+@keyframes gradienteDinamico {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.stApp {
+    background: linear-gradient(-45deg, #04060b, #0a1324, #07101e, #030508) !important;
+    background-size: 400% 400% !important;
+    animation: gradienteDinamico 14s ease infinite !important;
+}
+[data-testid="stSidebar"] {
+    background-color: #080d19 !important;
+    border-right: 1px solid #1e293b !important;
+}
+h1, h2 { color: #38bdf8 !important; }
+h3, h4 { color: #facc15 !important; }
+.card-visual {
+    background-color: #0f172a;
+    border: 1px solid #334155;
+    border-left: 5px solid #38bdf8;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 16px;
+}
+.card-visual h4 { color: #facc15 !important; margin: 0 0 8px 0; }
+.card-visual p { color: #f8fafc !important; margin: 4px 0; font-size: 15px; }
+.gabarito-visual {
+    background-color: #091e16;
+    border: 1px solid #15803d;
+    border-left: 5px solid #4ade80;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 14px;
+}
+.gabarito-visual h5 { color: #4ade80 !important; margin: 0 0 6px 0; }
+.gabarito-visual p { color: #ecfdf5 !important; margin: 0; }
+</style>
 """, unsafe_allow_html=True)
 
-# Carregamento seguro da Base de Dados de Direito Administrativo
+# MEMORIA INTERATIVA DA SESSAO
+if "acertos" not in st.session_state:
+    st.session_state.acertos = 0
+if "erros" not in st.session_state:
+    st.session_state.erros = 0
+if "respondidas" not in st.session_state:
+    st.session_state.respondidas = []
+if "temas_dificuldade" not in st.session_state:
+    st.session_state.temas_dificuldade = []
+
+# CARREGAMENTO DOS DADOS AUDITADOS (2022-2026)
 try:
-    with open('dados_oab.json', 'r', encoding='utf-8') as f:
+    with open("dados_oab.json", "r", encoding="utf-8") as f:
         db = json.load(f)
-except FileNotFoundError:
-    st.error("Erro: Crie o arquivo 'dados_oab.json' no mesmo diretório para rodar o app.")
+except Exception as e:
+    st.error(f"Erro ao carregar dados_oab.json: {e}")
     st.stop()
 
-# 📌 Menu Lateral de Navegação por Módulos
-st.sidebar.image("https://flaticon.com", width=70)
-st.sidebar.title("LexAI OAB")
+# MENU LATERAL (OS 5 MODULOS DO EDITAL - PAGINA 8)
+st.sidebar.title("⚖️ LexAI OAB")
 st.sidebar.caption("Direito Administrativo | UNAMA")
 st.sidebar.markdown("---")
-modulo = st.sidebar.radio("Navegar pelos Módulos:", [
+
+modulo = st.sidebar.radio("Selecione o Módulo:", [
     "📊 Módulo 1: Estatísticas (2022–2026)",
-    "📝 Módulos 2 e 3: Simulador Prático",
-    "🤖 Módulo 4: Corretor Inteligente"
+    "📝 Módulo 2: Banco de Questões (1ª Fase)",
+    "✍️ Módulo 3: Questões Discursivas (2ª Fase)",
+    "🤖 Módulo 4: Corretor Inteligente com IA",
+    "📅 Módulo 5: Plano de Estudos Personalizado"
 ])
 
-# ==========================================
-# MÓDULO 1: PAINEL ESTATÍSTICO (1ª e 2ª FASE)
-# ==========================================
+st.sidebar.markdown("---")
+st.sidebar.subheader("📈 Painel de Desempenho")
+st.sidebar.write(f"✅ Acertos: **{st.session_state.acertos}**")
+st.sidebar.write(f"❌ Erros: **{st.session_state.erros}**")
+
+if st.sidebar.button("🔄 Reiniciar Simulado"):
+    st.session_state.acertos = 0
+    st.session_state.erros = 0
+    st.session_state.respondidas = []
+    st.session_state.temas_dificuldade = []
+    st.rerun()
+
+# MODULO 1: ESTATISTICAS DA OAB 2022-2026
 if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
-    st.title("📊 Análise Estatística Prévias OAB (2022-2026)")
-    st.markdown("### Mapeamento Metodológico de Direito Administrativo [1ª Fase]")
+    st.title("📊 Análise Estatística OAB (2022–2026)")
+    st.markdown("### Mapeamento Auditado até o 47º Exame de Ordem Unificado")
     
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric(label="Tema Mais Cobrado 🔝", value="Agentes & Improbidade", delta="25.0% das questões")
-    with col2:
-        st.metric(label="Foco Legislativo Central", value="Lei 14.133/21", delta="Tendência de Alta")
-    with col3:
-        st.metric(label="Total de Questões Coletadas", value="56 Questões", delta="Dados Auditados")
-        
-    st.markdown("#### Ranking de Incidência - Prova Objetiva")
-    df_1fase = pd.DataFrame(db["estatisticas_1a_fase"])
-    st.dataframe(df_1fase, use_container_width=True)
-
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Tema Líder (1ª Fase)", "Agentes & Improbidade", "25,0% de incidência")
+    c2.metric("Destaque Legislativo", "Lei 14.133/21", "21,4% (Tendência Alta)")
+    c3.metric("Peça Campeã (2ª Fase)", "Mandado de Segurança", "5 cobranças no período")
+    
     st.markdown("---")
-    st.markdown("### 🏛️ Mapeamento de Peças Prático-Profissionais [2ª Fase]")
-    df_2fase = pd.DataFrame(db["pecas_recorrentes_2a_fase"])
-    st.table(df_2fase)
+    tab1, tab2, tab3 = st.tabs(["📈 Gráficos Dinâmicos (1ª Fase)", "📋 Ranking Completo (1ª Fase)", "🏛️ Peças Processuais (2ª Fase)"])
+    df_1fase = pd.DataFrame(db["estatisticas_1a_fase"])
+    
+    with tab1:
+        g1, g2 = st.columns(2)
+        g1.subheader("Questões Cobradas por Tema")
+        g1.bar_chart(df_1fase.set_index("tema")["questoes"], color="#38bdf8")
+        g2.subheader("Percentual de Incidência (%)")
+        g2.bar_chart(df_1fase.set_index("tema")["porcentagem"], color="#facc15")
+        
+    with tab2:
+        st.subheader("Tabela Quantitativa da Prova Objetiva")
+        filtro = st.multiselect("Filtrar por tendência:", options=["Alta", "Estável", "Queda"], default=["Alta", "Estável", "Queda"])
+        st.dataframe(df_1fase[df_1fase["tendencia"].isin(filtro)], use_container_width=True)
+        
+    with tab3:
+        st.subheader("Levantamento Histórico de Peças (2ª Fase)")
+        st.dataframe(pd.DataFrame(db["pecas_recorrentes_2a_fase"]), use_container_width=True)
 
-# ==========================================
-# MÓDULO 2 e 3: SIMULADOR DE QUESTÕES DINÂMICO
-# ==========================================
-elif modulo == "📝 Módulos 2 e 3: Simulador Prático":
-    st.title("📝 Simulador de Prova Objetiva OAB")
-    st.write("Resolva as questões oficiais levantadas na pesquisa histórica do grupo:")
+# MODULO 2: BANCO DE QUESTOES OBJETIVAS COM GABARITOS
+elif modulo == "📝 Módulo 2: Banco de Questões (1ª Fase)":
+    st.title("📝 Banco Inteligente de Questões (1ª Fase)")
+    st.markdown("### Simulado Interativo com 10 Questões Reais dos Temas Recorrentes")
     
     questoes = db["questoes_simulado"]
+    total_q = len(questoes)
+    progresso = len(st.session_state.respondidas) / total_q if total_q > 0 else 0
+    st.progress(progresso)
+    st.write(f"Progresso: **{len(st.session_state.respondidas)} de {total_q}** questões respondidas")
     
-    lista_titulos = [f"Questão {q['id']} - {q['tema']}" for q in questoes]
-    escolha_q = st.selectbox("Escolha a questão para responder:", lista_titulos)
+    temas = ["Todos os Temas"] + sorted(list(set([q["tema"] for q in questoes])))
+    tema_sel = st.selectbox("Filtrar questões por assunto jurídico:", temas)
+    filtradas = questoes if tema_sel == "Todos os Temas" else [q for q in questoes if q["tema"] == tema_sel]
     
-    idx = lista_titulos.index(escolha_q)
-    q_atual = questoes[idx]
+    titulos = [f"Questão {q['id']} — {q['tema']}" for q in filtradas]
+    escolha = st.selectbox("Selecione a questão:", titulos)
+    q_atual = filtradas[titulos.index(escolha)]
     
-    st.info(f"**Assunto:** {q_atual['tema']}")
-    st.markdown(f"**Enunciado:**\n{q_atual['enunciado']}")
+    st.markdown(f'<div class="card-visual"><h4>📌 Assunto: {q_atual["tema"]}</h4><p><strong>Enunciado:</strong> {q_atual["enunciado"]}</p></div>', unsafe_allow_html=True)
     
-    alternativas_dict = q_atual["alternativas"]
-    opcoes_radio = [
-        f"A) {alternativas_dict['A']}",
-        f"B) {alternativas_dict['B']}",
-        f"C) {alternativas_dict['C']}",
-        f"D) {alternativas_dict['D']}"
-    ]
+    alt = q_atual["alternativas"]
+    opcoes = [f"A) {alt['A']}", f"B) {alt['B']}", f"C) {alt['C']}", f"D) {alt['D']}"]
+    resp = st.radio("Escolha sua alternativa:", opcoes, key=f"rad_{q_atual['id']}")
     
-    resposta_usuario = st.radio("Selecione sua resposta jurídica:", opcoes_radio, key=f"radio_{q_atual['id']}")
+    b1, b2 = st.columns(2)
+    btn_validar = b1.button("✅ Validar Resposta", key=f"val_{q_atual['id']}")
+    btn_dif = b2.button("🚩 Registrar Dificuldade neste Tema", key=f"dif_{q_atual['id']}")
     
-    if st.button("Validar Resposta na Banca", key=f"btn_{q_atual['id']}"):
-        letra_marcada = resposta_usuario[0]
+    if btn_dif:
+        if q_atual["tema"] not in st.session_state.temas_dificuldade:
+            st.session_state.temas_dificuldade.append(q_atual["tema"])
+        st.warning(f"Dificuldade em **{q_atual['tema']}** registrada no Módulo 5!")
         
-        if letra_marcada == q_atual["correta"]:
-            st.success("🟢 **Resposta CORRETA!** Seu argumento bate com o gabarito definitivo da FGV.")
+    if btn_validar:
+        letra = resp.split(")").strip()
+        if q_atual["id"] not in st.session_state.respondidas:
+            st.session_state.respondidas.append(q_atual["id"])
+            if letra == q_atual["correta"]:
+                st.session_state.acertos += 1
+            else:
+                st.session_state.erros += 1
+                if q_atual["tema"] not in st.session_state.temas_dificuldade:
+                    st.session_state.temas_dificuldade.append(q_atual["tema"])
+                    
+        if letra == q_atual["correta"]:
+            st.success("🟢 **Resposta CORRETA!** Pontuação somada ao placar.")
         else:
-            st.error(f"🔴 **Resposta INCORRETA.** A alternativa correta apontada pela banca é a Letra {q_atual['correta']}.")
-        
-        st.markdown(f"""
-        <div class="gabarito-box">
-            <h5 style="color:#0369a1; margin:0 0 8px 0;">💡 Fundamentação Legal e Justificativa</h5>
-            <p style="color:#0c4a6e; font-size:14px; margin:0;">{q_atual['gabarito_comentado']}</p>
-        </div>
-        """, unsafe_allow_html=True)
+            st.error(f"🔴 **Resposta INCORRETA.** O gabarito oficial FGV é a letra **{q_atual['correta']}**.")
+            
+        st.markdown(f'<div class="gabarito-visual"><h5>💡 Gabarito Comentado e Fundamentação Legal</h5><p>{q_atual["gabarito_comentado"]}</p></div>', unsafe_allow_html=True)
 
-# ==========================================
-# MÓDULO 4: CORRETOR DE INTELIGÊNCIA ARTIFICIAL
-# ==========================================
-elif modulo == "🤖 Módulo 4: Corretor Inteligente":
-    st.title("🤖 Corretor Pedagógico de Peças e Discursivas")
-    st.caption("Mecanismo simulado com base no padrão e critérios de correção oficiais da OAB.")
+# MODULO 3: QUESTOES DISCURSIVAS POR ASSUNTO (2a FASE)
+elif modulo == "✍️ Módulo 3: Questões Discursivas (2ª Fase)":
+    st.title("✍️ Banco de Peças e Questões Discursivas (2ª Fase)")
+    st.markdown("### Estudo Dirigido com Padrões de Resposta e Espelhos Oficiais")
     
-    st.markdown("### Caso Prático Proposto: Mandado de Segurança")
-    st.warning("**Situação:** Impetração de MS visando reverter exclusão ilegal de candidato em concurso público estadual promovido pela Secretaria de Administração.")
+    discursivas = db.get("questoes_discursivas", [])
+    titulos_disc = [f"Caso {d['id']} — {d['tema']}" for d in discursivas]
+    escolha_d = st.selectbox("Selecione a peça ou questão discursiva:", titulos_disc)
+    d_atual = discursivas[titulos_disc.index(escolha_d)]
     
-    espelho_padrao = """- Endereçamento correto ao Juiz de Direito da Vara da Fazenda Pública (0,50)
-- Fundamentação constitucional e legal: Art. 5º, LXIX da CF e Lei 12.016/09 (0,40)
-- Demonstração analítica do direito líquido e certo violado (1,20)
-- Pedido de liminar baseado no periculum in mora e fumus boni iuris (1,50)
-- Pedido de notificação da autoridade coatora e intimação do MP (0,50)"""
+    st.markdown(f'<div class="card-visual"><h4>⚖️ {d_atual["tema"]}</h4><p><strong>Proposta Oficial:</strong> {d_atual["enunciado"]}</p></div>', unsafe_allow_html=True)
     
-    st.markdown("#### Parâmetros do Espelho de Correção Oficial")
-    st.code(espelho_padrao, language="text")
+    if st.checkbox("👁️ Exibir Espelho Oficial de Correção FGV", key=f"esp_{d_atual['id']}"):
+        st.code(d_atual["espelho"], language="text")
+
+# MODULO 4: CORRETOR INTELIGENTE COM PROMPT E ESPELHOS OFICIAIS
+elif modulo == "🤖 Módulo 4: Corretor Inteligente com IA":
+    st.title("🤖 Corretor Pedagógico Inteligente (2ª Fase)")
+    st.markdown("### Avaliação Estruturada nos 5 Passos do Prompt de Correção")
     
-    resposta_aluno = st.text_area("Insira a resposta ou trecho da peça produzida pelo aluno para correção:")
+    discursivas = db.get("questoes_discursivas", [])
+    titulos_disc = [f"Caso {d['id']} — {d['tema']}" for d in discursivas]
+    escolha_c = st.selectbox("Escolha o caso prático para treinar:", titulos_disc)
+    c_atual = discursivas[titulos_disc.index(escolha_c)]
     
-    if st.button("Submeter para Análise da IA"):
-        if not resposta_aluno:
-            st.info("Insira um texto de resposta para gerar o relatório de notas.")
-        else:
-            with st.spinner("Avaliando aderência ao espelho oficial..."):
-                st.markdown("### 🎯 Relatório Gerado pelo Prompt Master")
-                
-                st.markdown("#### 📊 Tabela de Desempenho (Visual Law)")
-                dados_tabela = {
-                    "Item do Espelho": ["Endereçamento", "Fundamentação Legal", "Direito Líquido e Certo", "Pedido Liminar", "Pedidos de Notificação"],
-                    "Desempenho": ["Contemplou", "Contemplou", "Parcial", "Omitiu", "Contemplou"],
-                    "Pontuação": ["0,50 / 0,50", "0,40 / 0,40", "0,60 / 1,20", "0,00 / 1,50", "0,50 / 0,50"]
-                }
-                st.table(pd.DataFrame(dados_tabela))
-                
-                st.markdown("#### 🔍 Diagnóstico Detalhado")
-                st.markdown("* **🟢 Acertos:** Endereçamento preciso e citação integral dos dispositivos normativos corretos.")
-                st.markdown("* **🔴 Omissões Críticas:** Você deixou de requerer expressamente a concessão de medida liminar, perdendo o bloco de pontuação mais valioso do espelho (1,50 ponto).")
-                
-                st.markdown("#### 📚 Plano de Estudos Customizado (Módulo 5)")
-                st.info("**Recomendação de Revisão:** Estude os requisitos do Art. 7º, inciso III da Lei nº 12.016/09. Pratique a redação de peças focando em estruturar pedidos urgentes liminares.")
+    st.markdown(f'<div class="card-visual"><h4>📄 Enunciado para Resposta</h4><p>{c_atual["enunciado"]}</p></div>', unsafe_allow_html=True)
+    
+    with st.expander("🔍 Ver Prompt Pedagógico Aplicado (Etapa 3 do Edital)"):
+        st.code("1. Identificar o assunto jurídico da questão\n2. Analisar e comparar a resposta com o padrão oficial\n3. Verificar fundamentos legais e processuais exigidos\n4. Identificar acertos, erros, omissões e argumentos incompletos\n5. Atribuir pontuação simulada e sugerir melhorias e revisões", language="text")
+    
+    texto_aluno = st.text_area("✍️ Redija sua resposta jurídica abaixo:", height=180, placeholder="Digite aqui a fundamentação jurídica, artigos da Constituição/Leis e os pedidos cabíveis...")
+    
+    if st.button("🚀 Submeter Resposta para Correção"):
+        if len(texto_aluno.strip()) < 15:
