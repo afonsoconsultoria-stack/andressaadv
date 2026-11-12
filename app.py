@@ -12,10 +12,6 @@ st.markdown("""
     div.stButton > button:first-child {background-color: #1E3A8A; color: white; width: 100%; border-radius: 5px; font-weight: bold;}
     .gabarito-box {background-color: #E0F2FE; padding: 18px; border-radius: 6px; border-left: 5px solid #0284C7; margin-top: 15px;}
     </style>
-
-[data-testid="stMetricValue"] div {
-    color: #ffffff !important;
-}
 """, unsafe_allow_html=True)
 
 # Carregamento seguro da Base de Dados de Direito Administrativo
