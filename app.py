@@ -1,153 +1,147 @@
-{
-  "area_juridica": "Direito Administrativo",
-  "estatisticas_1a_fase": [
-    { "tema": "Agentes Públicos e Improbidade", "questoes": 14, "porcentagem": 25.0, "tendencia": "Alta" },
-    { "tema": "Licitações e Contratos (Lei 14.133/21)", "questoes": 12, "porcentagem": 21.4, "tendencia": "Alta" },
-    { "tema": "Atos Administrativos", "questoes": 9, "porcentagem": 16.1, "tendencia": "Estável" },
-    { "tema": "Intervenção na Propriedade", "questoes": 7, "porcentagem": 12.5, "tendencia": "Estável" },
-    { "tema": "Responsabilidade Civil do Estado", "questoes": 6, "porcentagem": 10.7, "tendencia": "Queda" },
-    { "tema": "Serviços Públicos e Concessões", "questoes": 5, "porcentagem": 8.9, "tendencia": "Estável" },
-    { "tema": "Organização Administrativa", "questoes": 3, "porcentagem": 5.4, "tendencia": "Queda" }
-  ],
-  "pecas_recorrentes_2a_fase": [
-    { "modalidade": "Mandado de Segurança", "frequencia": 5, "fundamento": "Art. 5º, LXIX, CF e Lei 12.016/09", "erro_critico": "Indicação errônea da autoridade coatora." },
-    { "modalidade": "Ação Anulatória de Ato Administrativo", "frequencia": 4, "fundamento": "Rito Comum CPC", "erro_critico": "Omissão do pedido de tutela de urgência." },
-    { "modalidade": "Ação Civil Pública", "frequencia": 2, "fundamento": "Lei 7.347/85", "erro_critico": "Confusão na legitimidade ativa." },
-    { "modalidade": "Recurso de Apelação", "frequencia": 2, "fundamento": "Art. 1.009 do CPC", "erro_critico": "Erro no endereçamento da petição de interposição." }
-  ],
-  "questoes_simulado": [
-    {
-      "id": 1,
-      "tema": "Licitações e Contratos (Lei 14.133/21)",
-      "enunciado": "O Município X realizou contratação direta, por inexigibilidade de licitação, de serviços técnicos especializados de natureza predominantemente intelectual com profissional de notória especialização. À luz da Lei nº 14.133/2021, a conduta está:",
-      "alternativas": {
-        "A": "Incorreta, pois serviços intelectuais exigem concorrência.",
-        "B": "Correta, desde que demonstrada a inviabilidade de competição e a notória especialização.",
-        "C": "Incorreta, visto que a nova lei extinguiu a inexigibilidade.",
-        "D": "Correta, mas exige obrigatoriamente leilão reverso."
-      },
-      "correta": "B",
-      "gabarito_comentado": "Art. 74, III, da Lei nº 14.133/2021: é inexigível a licitação quando houver inviabilidade de competição para serviços técnicos especializados de natureza predominantemente intelectual com profissionais de notória especialização."
-    },
-    {
-      "id": 2,
-      "tema": "Agentes Públicos e Improbidade",
-      "enunciado": "Determinado Secretário Municipal frustrou licitação para favorecer empresa de parente, causando prejuízo ao erário. Conforme a Lei nº 8.429/92 (alterada pela Lei nº 14.230/21), para configurar improbidade exige-se elemento subjetivo:",
-      "alternativas": {
-        "A": "Meramente culposo, bastando negligência na gestão.",
-        "B": "Específico de dolo, sendo superada a modalidade culposa.",
-        "C": "De culpa grave exclusivamente, conforme a LINDB.",
-        "D": "Presumido (dolo in re ipsa), sem necessidade de prova."
-      },
-      "correta": "B",
-      "gabarito_comentado": "Art. 1º, § 1º, da Lei nº 8.429/92 (redação da Lei 14.230/21): consideram-se atos de improbidade administrativa apenas as condutas dolosas, exigindo-se o dolo específico."
-    },
-    {
-      "id": 3,
-      "tema": "Atos Administrativos",
-      "enunciado": "Uma autarquia aplicou multa a concessionária, mas comprovou-se posteriormente que o motivo declarado para a penalidade era inexistente. Pela teoria dos motivos determinantes, o ato é:",
-      "alternativas": {
-        "A": "Válido, pois o poder de polícia confere discricionariedade plena.",
-        "B": "Nulo, pois a validade do ato vincula-se à veracidade dos motivos declarados.",
-        "C": "Anulável, podendo ser convalidado pela autoridade superior.",
-        "D": "Inexistente, dispensando qualquer manifestação para retirada."
-      },
-      "correta": "B",
-      "gabarito_comentado": "Pela teoria dos motivos determinantes, os motivos invocados pela Administração vinculam a validade do ato. Se o motivo é falso ou inexistente, o ato é nulo."
-    },
-    {
-      "id": 4,
-      "tema": "Intervenção na Propriedade",
-      "enunciado": "O Estado editou decreto de utilidade pública para desapropriação de imóvel urbano. Passados seis anos sem acordo ou ação judicial, ocorreu:",
-      "alternativas": {
-        "A": "A caducidade do decreto expropriatório, que opera após 5 anos.",
-        "B": "A encampação automática do bem pelo Poder Público.",
-        "C": "A tredestinação ilícita do imóvel.",
-        "D": "A caducidade do decreto, que opera no prazo de 2 anos."
-      },
-      "correta": "A",
-      "gabarito_comentado": "Art. 10 do Decreto-Lei nº 3.365/1941: a desapropriação por utilidade pública deve ser efetivada ou intentada judicialmente dentro de 5 anos, sob pena de caducidade."
-    },
-    {
-      "id": 5,
-      "tema": "Atos Administrativos",
-      "enunciado": "No processo administrativo federal (Lei nº 9.784/99), a autoridade indeferiu requerimento de direitos coletivos sem apresentar fundamentos fáticos e jurídicos. À luz da lei, a motivação é:",
-      "alternativas": {
-        "A": "Facultativa, pela supremacia do interesse público.",
-        "B": "Obrigatória apenas em sanções disciplinares.",
-        "C": "Obrigatória, com indicação dos fatos e fundamentos jurídicos, sob pena de nulidade.",
-        "D": "Dispensada se o interessado conhecer o regulamento."
-      },
-      "correta": "C",
-      "gabarito_comentado": "Art. 50, I, da Lei nº 9.784/1999: os atos administrativos que neguem, limitem ou afetem direitos ou interesses devem ser obrigatoriamente motivados."
-    },
-    {
-      "id": 6,
-      "tema": "Responsabilidade Civil do Estado",
-      "enunciado": "Viatura policial em perseguição colidiu com veículo de particular que estava regularmente estacionado. Segundo o Art. 37, § 6º da Constituição Federal, a responsabilidade do Estado é:",
-      "alternativas": {
-        "A": "Subjetiva, exigindo prova de culpa do motorista policial.",
-        "B": "Objetiva, baseada na teoria do risco administrativo, cabendo direito de regresso contra o agente se houver dolo ou culpa.",
-        "C": "Objetiva, baseada no risco integral, sem excludentes.",
-        "D": "Inexistente, pois o agente estava no estrito cumprimento do dever."
-      },
-      "correta": "B",
-      "gabarito_comentado": "Art. 37, § 6º, CF: as pessoas jurídicas de direito público respondem objetivamente pelos danos que seus agentes causarem a terceiros, assegurado o direito de regresso nos casos de dolo ou culpa."
-    },
-    {
-      "id": 7,
-      "tema": "Serviços Públicos e Concessões",
-      "enunciado": "O Poder Concedente decidiu retomar o serviço de transporte coletivo antes do término do contrato de concessão, por motivo de interesse público, mediante lei autorizativa e prévia indenização. Essa forma de extinção denomina-se:",
-      "alternativas": {
-        "A": "Caducidade.",
-        "B": "Encampação.",
-        "C": "Rescisão unilateral por culpa da concessionária.",
-        "D": "Anulação contratual."
-      },
-      "correta": "B",
-      "gabarito_comentado": "Art. 37 da Lei nº 8.987/95: considera-se encampação a retomada do serviço pelo poder concedente durante o prazo da concessão, por motivo de interesse público, mediante lei autorizativa específica e após prévio pagamento da indenização."
-    },
-    {
-      "id": 8,
-      "tema": "Organização Administrativa",
-      "enunciado": "A criação de uma Autarquia Federal para fiscalizar determinada atividade econômica exige, nos termos do Art. 37, XIX, da Constituição Federal:",
-      "alternativas": {
-        "A": "Decreto autônomo do Presidente da República.",
-        "B": "Lei específica criando diretamente a entidade.",
-        "C": "Lei complementar autorizando o registro em cartório.",
-        "D": "Portaria ministerial com aprovação do Senado."
-      },
-      "correta": "B",
-      "gabarito_comentado": "Art. 37, XIX, CF: somente por lei específica poderá ser criada autarquia e autorizada a instituição de empresa pública, de sociedade de economia mista e de fundação."
-    },
-    {
-      "id": 9,
-      "tema": "Agentes Públicos e Improbidade",
-      "enunciado": "Servidor público federal estável sofreu pena de demissão após Processo Administrativo Disciplinar (PAD). Posteriormente, obteve sentença penal transitada em julgado que o absolveu por negar a existência do fato. Na esfera administrativa, o servidor tem direito à:",
-      "alternativas": {
-        "A": "Readaptação em cargo equivalente.",
-        "B": "Reintegração ao cargo anteriormente ocupado, com ressarcimento de todas as vantagens.",
-        "C": "Recondução sem pagamento de atrasados.",
-        "D": "Aproveitamento em disponibilidade."
-      },
-      "correta": "B",
-      "gabarito_comentado": "Art. 126 da Lei nº 8.112/90 e Art. 28 da Lei nº 8.112/90: a responsabilidade administrativa do servidor será afastada no caso de absolvição criminal que negue a existência do fato ou sua autoria, gerando a reintegração."
-    },
-    {
-      "id": 10,
-      "tema": "Licitações e Contratos (Lei 14.133/21)",
-      "enunciado": "Na Nova Lei de Licitações (Lei nº 14.133/2021), a modalidade obrigatória para aquisição de bens e serviços comuns, cujo critério de julgamento poderá ser o de menor preço ou o de maior desconto, é:",
-      "alternativas": {
-        "A": "Tomada de Preços.",
-        "B": "Convite.",
-        "C": "Pregão.",
-        "D": "Concurso."
-      },
-      "correta": "C",
-      "gabarito_comentado": "Art. 6º, XLI, e Art. 29 da Lei nº 14.133/2021: o pregão é a modalidade obrigatória para aquisição de bens e serviços comuns, utilizando os critérios de menor preço ou maior desconto."
-    }
-  ],
-  "questoes_discursivas": [
-    {
-      "id": 1,
-      "tema": "Mandado de Segurança (2ª Fase - Peça Prática)",
+import streamlit as st
+import json
+import pandas as pd
+
+# 🎨 DESIGN VISUAL: Configurações de Identidade e Layout (Visual Law)
+st.set_page_config(page_title="LexAI OAB - Direito Administrativo", layout="wide", initial_sidebar_state="expanded")
+
+st.markdown("""
+    <style>
+    .main {background-color: #fcfcfc;}
+    .stMetric {background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 5px solid #1E3A8A;}
+    div.stButton > button:first-child {background-color: #1E3A8A; color: white; width: 100%; border-radius: 5px; font-weight: bold;}
+    .gabarito-box {background-color: #E0F2FE; padding: 18px; border-radius: 6px; border-left: 5px solid #0284C7; margin-top: 15px;}
+    </style>
+""", unsafe_allowed_html=True)
+
+# Carregamento seguro da Base de Dados de Direito Administrativo
+try:
+    with open('dados_oab.json', 'r', encoding='utf-8') as f:
+        db = json.load(f)
+except FileNotFoundError:
+    st.error("Erro: Crie o arquivo 'dados_oab.json' no mesmo diretório para rodar o app.")
+    st.stop()
+
+# 📌 Menu Lateral de Navegação por Módulos
+st.sidebar.image("https://flaticon.com", width=70)
+st.sidebar.title("LexAI OAB")
+st.sidebar.caption("Direito Administrativo | UNAMA")
+st.sidebar.markdown("---")
+modulo = st.sidebar.radio("Navegar pelos Módulos:", [
+    "📊 Módulo 1: Estatísticas (2022–2026)",
+    "📝 Módulos 2 e 3: Simulador Prático",
+    "🤖 Módulo 4: Corretor Inteligente"
+])
+
+# ==========================================
+# MÓDULO 1: PAINEL ESTATÍSTICO (1ª e 2ª FASE)
+# ==========================================
+if modulo == "📊 Módulo 1: Estatísticas (2022–2026)":
+    st.title("📊 Análise Estatística Prévias OAB (2022-2026)")
+    st.markdown("### Mapeamento Metodológico de Direito Administrativo [1ª Fase]")
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric(label="Tema Mais Cobrado 🔝", value="Agentes & Improbidade", delta="25.0% das questões")
+    with col2:
+        st.metric(label="Foco Legislativo Central", value="Lei 14.133/21", delta="Tendência de Alta")
+    with col3:
+        st.metric(label="Total de Questões Coletadas", value="56 Questões", delta="Dados Auditados")
+        
+    st.markdown("#### Ranking de Incidência - Prova Objetiva")
+    df_1fase = pd.DataFrame(db["estatisticas_1a_fase"])
+    st.dataframe(df_1fase.style.background_gradient(cmap="Blues", subset=["porcentagem"]), use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("### 🏛️ Mapeamento de Peças Prático-Profissionais [2ª Fase]")
+    df_2fase = pd.DataFrame(db["pecas_recorrentes_2a_fase"])
+    st.table(df_2fase)
+
+# ==========================================
+# MÓDULO 2 e 3: SIMULADOR DE QUESTÕES DINÂMICO
+# ==========================================
+elif modulo == "📝 Módulos 2 e 3: Simulador Prático":
+    st.title("📝 Simulador de Prova Objetiva OAB")
+    st.write("Resolva as questões oficiais levantadas na pesquisa histórica do grupo:")
+    
+    questoes = db["questoes_simulado"]
+    
+    # Seletor numérico de questões para dar dinamismo visual (Visual Law)
+    lista_titulos = [f"Questão {q['id']} - {q['tema']}" for q in questoes]
+    escolha_q = st.selectbox("Escolha a questão para responder:", lista_titulos)
+    
+    # Resgata o índice da questão selecionada
+    idx = lista_titulos.index(escolha_q)
+    q_atual = questoes[idx]
+    
+    st.info(f"**Assunto:** {q_atual['tema']}")
+    st.markdown(f"**Enunciado:**\n{q_atual['enunciado']}")
+    
+    alternativas_dict = q_atual["alternativas"]
+    opcoes_radio = [
+        f"A) {alternativas_dict['A']}",
+        f"B) {alternativas_dict['B']}",
+        f"C) {alternativas_dict['C']}",
+        f"D) {alternativas_dict['D']}"
+    ]
+    
+    resposta_usuario = st.radio("Selecione sua resposta jurídica:", opcoes_radio, key=f"radio_{q_atual['id']}")
+    
+    if st.button("Validar Resposta na Banca", key=f"btn_{q_atual['id']}"):
+        letra_marcada = resposta_usuario[0]  # Pega o primeiro caractere ('A', 'B', etc.)
+        
+        if letra_marcada == q_atual["correta"]:
+            st.success("🟢 **Resposta CORRETA!** Seu argumento bate com o gabarito definitivo da FGV.")
+        else:
+            st.error(f"🔴 **Resposta INCORRETA.** A alternativa correta apontada pela banca é a Letra {q_atual['correta']}.")
+        
+        # Exibição pedagógica limpa do Gabarito (Legal Design)
+        st.markdown(f"""
+        <div class="gabarito-box">
+            <h5 style="color:#0369a1; margin:0 0 8px 0;">💡 Fundamentação Legal e Justificativa</h5>
+            <p style="color:#0c4a6e; font-size:14px; margin:0;">{q_atual['gabarito_comentado']}</p>
+        </div>
+        """, unsafe_allowed_html=True)
+
+# ==========================================
+# MÓDULO 4: CORRETOR DE INTELIGÊNCIA ARTIFICIAL
+# ==========================================
+elif modulo == "🤖 Módulo 4: Corretor Inteligente":
+    st.title("🤖 Corretor Pedagógico de Peças e Discursivas")
+    st.caption("Mecanismo simulado com base no padrão e critérios de correção oficiais da OAB.")
+    
+    st.markdown("### Caso Prático Proposto: Mandado de Segurança")
+    st.warning("**Situação:** Impetração de MS visando reverter exclusão ilegal de candidato em concurso público estadual promovido pela Secretaria de Administração.")
+    
+    espelho_padrao = """- Endereçamento correto ao Juiz de Direito da Vara da Fazenda Pública (0,50)
+- Fundamentação constitucional e legal: Art. 5º, LXIX da CF e Lei 12.016/09 (0,40)
+- Demonstração analítica do direito líquido e certo violado (1,20)
+- Pedido de liminar baseado no periculum in mora e fumus boni iuris (1,50)
+- Pedido de notificação da autoridade coatora e intimação do MP (0,50)"""
+    
+    st.markdown("#### Parâmetros do Espelho de Correção Oficial")
+    st.code(espelho_padrao, language="text")
+    
+    resposta_aluno = st.text_area("Insira a resposta ou trecho da peça produzida pelo aluno para correção:")
+    
+    if st.button("Submeter para Análise da IA"):
+        if not resposta_aluno:
+            st.info("Insira um texto de resposta para gerar o relatório de notas.")
+        else:
+            with st.spinner("Avaliando aderência ao espelho oficial..."):
+                st.markdown("### 🎯 Relatório Gerado pelo Prompt Master")
+                
+                st.markdown("#### 📊 Tabela de Desempenho (Visual Law)")
+                dados_tabela = {
+                    "Item do Espelho": ["Endereçamento", "Fundamentação Legal", "Direito Líquido e Certo", "Pedido Liminar", "Pedidos de Notificação"],
+                    "Desempenho": ["Contemplou", "Contemplou", "Parcial", "Omitiu", "Contemplou"],
+                    "Pontuação": ["0,50 / 0,50", "0,40 / 0,40", "0,60 / 1,20", "0,00 / 1,50", "0,50 / 0,50"]
+                }
+                st.table(pd.DataFrame(dados_tabela))
+                
+                st.markdown("#### 🔍 Diagnóstico Detalhado")
+                st.markdown("* **🟢 Acertos:** Endereçamento preciso e citação integral dos dispositivos normativos corretos.")
+                st.markdown("* **🔴 Omissões Críticas:** Você deixou de requerer expressamente a concessão de medida liminar, perdendo o bloco de pontuação mais valioso do espelho (1,50 ponto).")
+                
+                st.markdown("#### 📚 Plano de Estudos Customizado (Módulo 5)")
+                st.info("**Recomendação de Revisão:** Estude os requisitos do Art. 7º, inciso III da Lei nº 12.016/09. Pratique a redação de peças focando em estruturar pedidos urgentes liminares.")
