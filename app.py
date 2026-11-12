@@ -188,5 +188,4 @@ elif modulo == "🤖 Módulo 4: Corretor Inteligente":
                     "3. Mérito (Direito Líquido e Certo)",
                     "4. Pedido de Medida Liminar",
                     "5. Notificação da Autoridade e MP"
-                ],
-                "Status": [
+                ],                "Status": [
